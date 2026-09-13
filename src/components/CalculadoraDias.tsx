@@ -1,6 +1,8 @@
 import { useMemo, useState } from "react";
 import { AlertCircle, ArrowRight } from "lucide-react";
 import { contar, revisar } from "@/domain/conteo";
+import { ANIO_MAXIMO_CALCULABLE, ANIO_MINIMO_CALCULABLE } from "@/domain/festivos";
+import { SelectorFecha } from "@/ui/primitives/selector-fecha";
 import { formatoLargo, sumarDias } from "@/domain/fechas";
 import { cn } from "@/lib/cn";
 
@@ -74,42 +76,32 @@ export default function CalculadoraDias({ hoy }: Props) {
       {/* ── Entradas ───────────────────────────────────────────────────── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end">
         <div className="flex-1">
-          <label htmlFor="desde" className="block text-sm font-medium">
-            Fecha inicial
-          </label>
-          <input
+          <SelectorFecha
             id="desde"
-            type="date"
-            value={desde}
-            onChange={(e) => setDesde(e.target.value)}
-            aria-invalid={campoMalo("desde")}
-            className={cn(
-              "mt-2 block h-12 w-full rounded-md border bg-card px-3 font-mono text-base",
-              campoMalo("desde") ? "border-destructive" : "border-border"
-            )}
+            etiqueta="Fecha inicial"
+            valor={desde}
+            onCambio={setDesde}
+            invalido={campoMalo("desde")}
+            anioMinimo={ANIO_MINIMO_CALCULABLE}
+            anioMaximo={ANIO_MAXIMO_CALCULABLE}
           />
         </div>
 
         <ArrowRight
           size={20}
           aria-hidden
-          className="hidden shrink-0 self-center text-muted-foreground sm:block"
+          className="hidden shrink-0 self-end pb-3.5 text-muted-foreground sm:block"
         />
 
         <div className="flex-1">
-          <label htmlFor="hasta" className="block text-sm font-medium">
-            Fecha final
-          </label>
-          <input
+          <SelectorFecha
             id="hasta"
-            type="date"
-            value={hasta}
-            onChange={(e) => setHasta(e.target.value)}
-            aria-invalid={campoMalo("hasta")}
-            className={cn(
-              "mt-2 block h-12 w-full rounded-md border bg-card px-3 font-mono text-base",
-              campoMalo("hasta") ? "border-destructive" : "border-border"
-            )}
+            etiqueta="Fecha final"
+            valor={hasta}
+            onCambio={setHasta}
+            invalido={campoMalo("hasta")}
+            anioMinimo={ANIO_MINIMO_CALCULABLE}
+            anioMaximo={ANIO_MAXIMO_CALCULABLE}
           />
         </div>
 
@@ -125,7 +117,7 @@ export default function CalculadoraDias({ hoy }: Props) {
                 className={cn(
                   "px-5 font-mono text-sm transition-colors",
                   base === b
-                    ? "bg-festivo text-festivo-foreground"
+                    ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:bg-muted"
                 )}
               >

@@ -12,7 +12,7 @@ const { tema } = Astro.props;
 
 <header class="border-b border-border">
   <div
-    class="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-8"
+    class="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-4 px-4 py-3 sm:px-8"
   >
     <a
       href={ruta("/")}
@@ -59,11 +59,24 @@ const { tema } = Astro.props;
         type="button"
         id="cambiar-esquema"
         class="flex h-10 w-10 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
-        aria-label="Cambiar entre claro y oscuro"
-        aria-pressed="false"
+        title="Tema: sistema"
+        aria-label="Tema: sistema. Pulsa para cambiar."
       >
         <svg
-          class="hidden h-[18px] w-[18px] dark:block"
+          class="ico ico-sistema h-[18px] w-[18px]"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="2" y="4" width="20" height="13" rx="2"></rect>
+          <path d="M8 21h8M12 17v4"></path>
+        </svg>
+        <svg
+          class="ico ico-claro h-[18px] w-[18px]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -77,7 +90,7 @@ const { tema } = Astro.props;
           ></path>
         </svg>
         <svg
-          class="h-[18px] w-[18px] dark:hidden"
+          class="ico ico-oscuro h-[18px] w-[18px]"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -92,26 +105,60 @@ const { tema } = Astro.props;
   </div>
 </header>
 
+<style>
+  /* El icono que se ve es el del modo activo. Se resuelve en CSS para que el
+     botón ya muestre lo correcto en la primera pintura, sin esperar al JS. */
+  .ico {
+    display: none;
+  }
+  :global([data-esquema="sistema"]) .ico-sistema,
+  :global([data-esquema="claro"]) .ico-claro,
+  :global([data-esquema="oscuro"]) .ico-oscuro {
+    display: block;
+  }
+</style>
+
 <script is:inline>
   // Vanilla a propósito: el conmutador está en todas las páginas y no vale la
   // pena hidratar React para alternar una clase.
   (function () {
     var boton = document.getElementById("cambiar-esquema");
     if (!boton) return;
-    var raiz = document.documentElement;
 
-    function marcar() {
-      boton.setAttribute("aria-pressed", String(!raiz.classList.contains("dark")));
+    var raiz = document.documentElement;
+    var MODOS = ["sistema", "claro", "oscuro"];
+    var NOMBRES = { sistema: "sistema", claro: "claro", oscuro: "oscuro" };
+    var delSistema = window.matchMedia("(prefers-color-scheme: dark)");
+
+    function leer() {
+      try {
+        var m = localStorage.getItem("kalndr-esquema");
+        return MODOS.indexOf(m) >= 0 ? m : "sistema";
+      } catch (e) {
+        return "sistema";
+      }
+    }
+
+    function aplicar(modo) {
+      raiz.setAttribute("data-esquema", modo);
+      raiz.classList.toggle("dark", modo === "sistema" ? delSistema.matches : modo === "oscuro");
+      boton.title = "Tema: " + NOMBRES[modo];
+      boton.setAttribute("aria-label", "Tema: " + NOMBRES[modo] + ". Pulsa para cambiar.");
+      try {
+        localStorage.setItem("kalndr-esquema", modo);
+      } catch (e) {}
     }
 
     boton.addEventListener("click", function () {
-      var oscuro = raiz.classList.toggle("dark");
-      try {
-        localStorage.setItem("kalndr-esquema", oscuro ? "oscuro" : "claro");
-      } catch (e) {}
-      marcar();
+      aplicar(MODOS[(MODOS.indexOf(leer()) + 1) % MODOS.length]);
     });
 
-    marcar();
+    // Si el modo es "sistema", seguir al sistema cuando cambie de verdad
+    // —al anochecer, por ejemplo— sin que haya que recargar.
+    delSistema.addEventListener("change", function () {
+      if (leer() === "sistema") aplicar("sistema");
+    });
+
+    aplicar(leer());
   })();
 </script>

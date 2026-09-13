@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CalendarClock, PartyPopper } from "lucide-react";
+import { ArrowDown, CalendarClock, PartyPopper } from "lucide-react";
 import { calcularFestivos } from "@/domain/festivos";
 import { diasEntre, formatoLargo, nombreDia } from "@/domain/fechas";
 import type { Festivo } from "@/domain/tipos";
@@ -57,10 +57,23 @@ export default function ProximoFestivo({ fechaBuild }: Props) {
   const dias = diasEntre(hoy, festivo.fecha);
   const esHoy = dias === 0;
 
+  /**
+   * La tarjeta lleva al calendario y deja ese dia seleccionado. El calendario
+   * es otra isla, asi que en vez de compartir estado se avisa por un evento
+   * del documento: dos componentes que no se conocen, un mensaje que si.
+   */
+  function irAlCalendario() {
+    document.dispatchEvent(
+      new CustomEvent("kalndr:ir-a-fecha", { detail: { fecha: festivo.fecha } })
+    );
+  }
+
   return (
-    <div
+    <button
+      type="button"
+      onClick={irAlCalendario}
       className={cn(
-        "rounded-lg border border-border bg-card p-6 sm:p-8",
+        "group flex h-full w-full flex-col rounded-lg border border-border bg-card p-6 text-left transition-colors hover:border-ring sm:p-8",
         esHoy && "border-festivo/50 bg-festivo-muted/20"
       )}
     >
@@ -86,6 +99,11 @@ export default function ProximoFestivo({ fechaBuild }: Props) {
           siguiente.
         </p>
       )}
-    </div>
+
+      <span className="mt-auto flex items-center gap-1.5 pt-5 text-sm text-muted-foreground transition-colors group-hover:text-festivo">
+        Verlo en el calendario
+        <ArrowDown size={14} aria-hidden />
+      </span>
+    </button>
   );
 }

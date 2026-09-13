@@ -63,6 +63,7 @@ export function entradaDeEvento(evento: Evento, anio: Anio): EntradaCalendario |
 
   return {
     tipo: TIPO_POR_CAPA[evento.capa] ?? "evento",
+    capa: evento.capa,
     slug: evento.id,
     nombre: evento.titulo,
     inicio: periodo.inicio,

@@ -49,6 +49,12 @@
   --color-fiesta: var(--fiesta);
   --color-fiesta-foreground: var(--fiesta-foreground);
   --color-fiesta-muted: var(--fiesta-muted);
+  --color-evento: var(--evento);
+  --color-evento-muted: var(--evento-muted);
+  --color-carrera: var(--carrera);
+  --color-carrera-muted: var(--carrera-muted);
+  --color-temporada: var(--temporada);
+  --color-temporada-muted: var(--temporada-muted);
   --color-hoy: var(--hoy);
   --color-hoy-foreground: var(--hoy-foreground);
   --color-hoy-muted: var(--hoy-muted);

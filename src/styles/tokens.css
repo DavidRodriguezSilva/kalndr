@@ -17,7 +17,7 @@
  *
  * Dos ejes, ortogonales entre sí:
  *   - Esquema: `:root` claro, `.dark` oscuro. El sitio arranca en oscuro
- *     porque pertenece a DarkForest, pero el eje existe y el usuario manda.
+ *     porque pertenece a Dark4rest, pero el eje existe y el usuario manda.
  *   - Temporada: `[data-tema]` sobreescribe un puñado de tokens según la
  *     época del año o la fiesta en curso. Ver `src/styles/temas/`.
  *
@@ -65,6 +65,15 @@
   --fiesta: oklch(0.52 0.09 195);
   --fiesta-foreground: oklch(0.99 0.005 195);
   --fiesta-muted: oklch(0.93 0.03 195);
+
+  --evento: oklch(0.52 0.14 305);
+  --evento-muted: oklch(0.94 0.04 305);
+
+  --carrera: oklch(0.5 0.13 150);
+  --carrera-muted: oklch(0.93 0.05 150);
+
+  --temporada: oklch(0.52 0.13 255);
+  --temporada-muted: oklch(0.94 0.04 255);
 
   --hoy: oklch(0.56 0.18 20);
   --hoy-foreground: oklch(0.99 0.01 20);
@@ -115,6 +124,15 @@
   --fiesta: oklch(0.72 0.1 195);
   --fiesta-foreground: oklch(0.18 0.02 195);
   --fiesta-muted: oklch(0.36 0.05 195);
+
+  --evento: oklch(0.74 0.14 305);
+  --evento-muted: oklch(0.37 0.08 305);
+
+  --carrera: oklch(0.74 0.14 150);
+  --carrera-muted: oklch(0.36 0.08 150);
+
+  --temporada: oklch(0.72 0.13 255);
+  --temporada-muted: oklch(0.36 0.08 255);
 
   --hoy: oklch(0.7 0.17 20);
   --hoy-foreground: oklch(0.18 0.03 20);

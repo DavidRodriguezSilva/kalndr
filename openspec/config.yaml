@@ -6,7 +6,7 @@ context: |
   vez: la persona que consulta y el agente que responde por ella. Ver
   `README.md` para la vision, `docs/estrategia.md` para el porque de la forma
   del sitio, `docs/formato-fichas.md` para el formato de festividades y
-  `docs/api.md` para el contrato de la API. Parte de la familia DarkForest
+  `docs/api.md` para el contrato de la API. Parte de la familia Dark4rest
   (dark-echo, dark-owl).
 
   Stack: TypeScript estricto, Astro 7 con islas React 19, Tailwind v4 con
