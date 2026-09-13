@@ -2,10 +2,16 @@
 import Base from "@/layouts/Base.astro";
 import Calendario from "@/components/Calendario";
 import ProximoFestivo from "@/components/ProximoFestivo";
-import { anioActual, calcularFestivos, coincidencias, diasNoLaborables } from "@/domain/festivos";
+import {
+  ANIO_MAXIMO_CALCULABLE,
+  ANIO_REGIMEN_ACTUAL,
+  anioActual,
+  calcularFestivos,
+  coincidencias,
+  diasNoLaborables,
+} from "@/domain/festivos";
 import { SITIO, ruta } from "@/seo/sitio";
 import { conjuntoDeDatos, listaFestivos, preguntas, sitioWeb } from "@/seo/jsonld";
-import { ANIOS_PAGINA } from "@/lib/rangos";
 
 const anio = anioActual();
 const festivos = calcularFestivos(anio);
@@ -74,7 +80,13 @@ const faq = [
     </div>
 
     <div class="mt-14">
-      <Calendario client:load anioInicial={anio} anios={ANIOS_PAGINA} hoy={hoy} />
+      <Calendario
+        client:load
+        anioInicial={anio}
+        anioMinimo={ANIO_REGIMEN_ACTUAL}
+        anioMaximo={ANIO_MAXIMO_CALCULABLE}
+        hoy={hoy}
+      />
     </div>
 
     <section class="mt-20" aria-labelledby="faq">

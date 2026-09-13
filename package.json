@@ -19,7 +19,8 @@
     "format:check": "prettier --check .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "iconos": "node --experimental-strip-types scripts/iconos.mjs"
+    "iconos": "node --experimental-strip-types scripts/iconos.mjs",
+    "fechas": "node scripts/fechas-por-confirmar.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^6.0.5",
@@ -39,6 +40,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
+    "@vite-pwa/astro": "^1.2.0",
     "prettier": "^3.9.6",
     "prettier-plugin-astro": "^0.14.1",
     "tailwindcss": "^4.3.3",

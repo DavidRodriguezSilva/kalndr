@@ -1,0 +1,44 @@
+name: Revisar fechas estimadas
+
+# Muchas fiestas y carreras anuncian su fecha cada anio. La hoja las declara
+# con la ventana habitual y `precision: estimada`, que es honesto, pero sin un
+# recordatorio nadie las revisa y el sitio envejece sin avisar. Esto abre un
+# issue cada enero con la lista de lo que hay que confirmar.
+on:
+  schedule:
+    - cron: "0 13 5 1 *" # 5 de enero, 08:00 en Bogota
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  recordar:
+    name: Abrir el issue del anio
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Instalar Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+
+      - name: Armar la lista
+        id: lista
+        run: |
+          {
+            echo 'cuerpo<<FIN'
+            node scripts/fechas-por-confirmar.mjs "$(date +%Y)"
+            echo 'FIN'
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Abrir el issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "Confirmar las fechas estimadas de $(date +%Y)" \
+            --body "${{ steps.lista.outputs.cuerpo }}" \
+            --repo "${{ github.repository }}"
