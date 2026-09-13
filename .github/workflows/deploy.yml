@@ -1,0 +1,72 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  # El sitio depende de la fecha: la ventana de anios destacados, el proximo
+  # festivo y `/llms.txt` se calculan en el build. Se republica cada lunes a
+  # las 05:00 UTC (medianoche en Bogota) para que no envejezca solo.
+  schedule:
+    - cron: "0 5 * * 1"
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  ci:
+    name: Verificacion (CI)
+    uses: ./.github/workflows/ci.yml
+
+  build:
+    name: Build
+    needs: ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Instalar Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+        env:
+          # Mudar el sitio a un dominio propio es cambiar estas dos variables
+          # en la configuracion del repositorio y anadir el CNAME. Nada mas.
+          SITE_URL: ${{ vars.SITE_URL || 'https://DavidRodriguezSilva.github.io' }}
+          BASE_PATH: ${{ vars.BASE_PATH || '/kalndr' }}
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v6
+
+      - name: Subir artefacto
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./dist
+
+  deploy:
+    name: Deploy
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy a GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
