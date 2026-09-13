@@ -1,0 +1,169 @@
+---
+import "@/styles/global.css";
+import Encabezado from "@/components/Encabezado.astro";
+import Pie from "@/components/Pie.astro";
+import { SITIO, ORIGEN, ruta, url } from "@/seo/sitio";
+import { anioActual } from "@/domain/festivos";
+import { calendarioDeTemas, temaActivo } from "@/domain/temas";
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Ruta interna de esta página, para la canónica: `/festivos/2026/`. */
+  camino: string;
+  /** Ruta de la imagen para compartir, sin `/og/` ni `.png`: `festivos/2026`. */
+  tarjeta?: string;
+  /** Objetos JSON-LD que describen esta página. */
+  datos?: unknown[];
+  /** `noindex` para páginas que existen pero no deben competir en el índice. */
+  indexable?: boolean;
+  /** Ancho máximo del contenido. `ancho` para el calendario, que necesita sitio. */
+  medida?: "normal" | "ancho";
+}
+
+const {
+  titulo,
+  descripcion,
+  camino,
+  tarjeta = "inicio",
+  datos = [],
+  indexable = true,
+  medida = "normal",
+} = Astro.props;
+
+const canonica = url(camino);
+const imagen = url(`/og/${tarjeta}.png`);
+
+// El día del build, en Bogotá. Es lo que se pinta en el servidor; el script de
+// abajo lo corrige con el reloj real del visitante antes de la primera pintura.
+const hoy = new Intl.DateTimeFormat("en-CA", {
+  timeZone: SITIO.zona,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
+
+const tema = temaActivo(hoy);
+const anio = anioActual();
+// Dos años de periodos: basta para que el navegador resuelva cualquier fecha
+// cercana sin que haya que enviarle el motor de reglas.
+const periodos = [...calendarioDeTemas(anio), ...calendarioDeTemas(anio + 1)];
+---
+
+<!doctype html>
+<html lang="es-CO" class="dark" data-tema={tema?.id} data-hoy={hoy}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{titulo}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    {!indexable && <meta name="robots" content="noindex, follow" />}
+
+    <script
+      is:inline
+      define:vars={{ periodos, hoyBuild: hoy, zona: SITIO.zona }}
+      set:html={`
+      // Esquema y tema, antes de la primera pintura: si esto corriera después,
+      // el visitante vería un destello del tema equivocado.
+      (function () {
+        var raiz = document.documentElement;
+        try {
+          var guardado = localStorage.getItem("kalndr-esquema");
+          // Oscuro de nacimiento: el sitio pertenece a DarkForest. La
+          // preferencia del sistema solo decide si el visitante nunca eligió.
+          var claro = guardado ? guardado === "claro"
+            : window.matchMedia("(prefers-color-scheme: light)").matches;
+          raiz.classList.toggle("dark", !claro);
+        } catch (e) {}
+
+        try {
+          var hoy = new Intl.DateTimeFormat("en-CA", {
+            timeZone: zona, year: "numeric", month: "2-digit", day: "2-digit"
+          }).format(new Date());
+          if (hoy !== hoyBuild) {
+            var activo = null;
+            for (var i = 0; i < periodos.length; i++) {
+              var p = periodos[i];
+              if (hoy >= p.inicio && hoy <= p.fin && (!activo || p.prioridad > activo.prioridad)) {
+                activo = p;
+              }
+            }
+            if (activo) raiz.setAttribute("data-tema", activo.id);
+            else raiz.removeAttribute("data-tema");
+            raiz.setAttribute("data-hoy", hoy);
+          }
+        } catch (e) {}
+      })();
+    `}
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap"
+    />
+
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#14171d" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITIO.nombre} />
+    <meta property="og:locale" content="es_CO" />
+    <meta property="og:title" content={titulo} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagen} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={titulo} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={titulo} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={imagen} />
+
+    <link rel="icon" href={ruta("/favicon.svg")} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={ruta("/apple-touch-icon.png")} />
+    <link rel="manifest" href={ruta("/site.webmanifest")} />
+    <link rel="sitemap" href={ruta("/sitemap-index.xml")} />
+
+    <!-- Para agentes: el mismo contenido, servible como datos. -->
+    <link
+      rel="alternate"
+      type="application/json"
+      href={`${ORIGEN}${ruta("/api/v1/index.json")}`}
+      title="API de KALNDR"
+    />
+
+    {
+      datos.map((dato) => (
+        <script type="application/ld+json" set:html={JSON.stringify(dato)} is:inline />
+      ))
+    }
+  </head>
+
+  <body class="min-h-dvh bg-background text-foreground antialiased">
+    <a
+      href="#contenido"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-card focus:px-4 focus:py-2"
+    >
+      Saltar al contenido
+    </a>
+
+    <Encabezado tema={tema?.nombre} />
+
+    <main
+      id="contenido"
+      class:list={[
+        "mx-auto w-full px-4 sm:px-8",
+        medida === "ancho" ? "max-w-[1600px]" : "max-w-[1200px]",
+      ]}
+    >
+      <slot />
+    </main>
+
+    <Pie />
+  </body>
+</html>
