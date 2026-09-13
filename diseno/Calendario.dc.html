@@ -1,0 +1,413 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="./support.js"></script>
+  </head>
+  <body>
+    <x-dc>
+      <helmet>
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=JetBrains+Mono:wght@400;600&display=swap"
+        />
+        <style>
+          body {
+            margin: 0;
+          }
+          a {
+            color: oklch(0.78 0.16 75);
+            text-decoration: none;
+          }
+          a:hover {
+            color: oklch(0.86 0.14 75);
+          }
+          .k-display {
+            font-family: "Bricolage Grotesque", ui-sans-serif, system-ui, sans-serif;
+          }
+          .k-mono {
+            font-family: "JetBrains Mono", ui-monospace, Menlo, monospace;
+          }
+        </style>
+      </helmet>
+
+      <div
+        style="
+          width: 1280px;
+          min-height: 900px;
+          background: oklch(0.16 0.012 260);
+          color: oklch(0.96 0.005 260);
+          font-family: ui-sans-serif, system-ui, sans-serif;
+          display: flex;
+          flex-direction: column;
+        "
+      >
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 48px;
+            border-bottom: 1px solid oklch(0.32 0.018 260);
+          "
+        >
+          <div style="display: flex; align-items: center; gap: 10px">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="oklch(0.78 0.16 75)"
+              stroke-width="2"
+              stroke-linecap="round"
+            >
+              <rect x="3" y="5" width="18" height="16" rx="3"></rect>
+              <path d="M8 2v5M16 2v5M3 11h18"></path>
+            </svg>
+            <span class="k-mono" style="font-size: 17px; font-weight: 600; letter-spacing: 0.08em"
+              >KALNDR</span
+            >
+          </div>
+          <div style="display: flex; align-items: center; gap: 14px">
+            <span class="k-mono" style="font-size: 14px; color: oklch(0.6 0.014 260)">2026</span>
+            <div
+              style="
+                display: flex;
+                border: 1px solid oklch(0.32 0.018 260);
+                border-radius: 9px;
+                overflow: hidden;
+              "
+            >
+              <div style="padding: 7px 13px; font-size: 13px; background: oklch(0.26 0.018 260)">
+                Año
+              </div>
+              <div
+                style="
+                  padding: 7px 13px;
+                  font-size: 13px;
+                  color: oklch(0.76 0.012 260);
+                  border-left: 1px solid oklch(0.32 0.018 260);
+                "
+              >
+                Mes
+              </div>
+              <div
+                style="
+                  padding: 7px 13px;
+                  font-size: 13px;
+                  color: oklch(0.76 0.012 260);
+                  border-left: 1px solid oklch(0.32 0.018 260);
+                "
+              >
+                Lista
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Conmutador de capas -->
+        <div
+          style="
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 18px 48px;
+            border-bottom: 1px solid oklch(0.32 0.018 260);
+            flex-wrap: wrap;
+          "
+        >
+          <span
+            style="
+              font-size: 12px;
+              letter-spacing: 0.14em;
+              text-transform: uppercase;
+              color: oklch(0.6 0.014 260);
+              margin-right: 4px;
+            "
+            >Capas</span
+          >
+
+          <sc-for list="{{capas}}" as="capa" hint-placeholder-count="5">
+            <div
+              onClick="{{ capa.alternar }}"
+              style="display: flex; align-items: center; gap: 9px; min-height: 40px; padding: 0 16px; border-radius: 9999px; cursor: pointer; border: 1px solid {{capa.borde}}; background: {{capa.fondo}}; transition: all 140ms ease;"
+            >
+              <span
+                style="width: 9px; height: 9px; border-radius: 9999px; background: {{capa.punto}};"
+              ></span>
+              <span style="font-size: 14px; color: {{capa.texto}};">{{capa.nombre}}</span>
+              <span class="k-mono" style="font-size: 11px; color: {{capa.contadorColor}};"
+                >{{capa.cuenta}}</span
+              >
+            </div>
+          </sc-for>
+
+          <div style="margin-left: auto; font-size: 13px; color: oklch(0.6 0.014 260)">
+            {{resumen}}
+          </div>
+        </div>
+
+        <!-- Rejilla de meses -->
+        <div
+          style="
+            padding: 26px 48px 40px;
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 18px;
+          "
+        >
+          <sc-for list="{{meses}}" as="mes" hint-placeholder-count="12">
+            <div
+              style="
+                border: 1px solid oklch(0.32 0.018 260);
+                border-radius: 13px;
+                padding: 16px 16px 14px;
+              "
+            >
+              <div style="display: flex; align-items: baseline; justify-content: space-between">
+                <span class="k-display" style="font-size: 17px; font-weight: 600"
+                  >{{mes.nombre}}</span
+                >
+                <span class="k-mono" style="font-size: 11px; color: oklch(0.6 0.014 260)"
+                  >{{mes.dias}}</span
+                >
+              </div>
+
+              <div
+                style="
+                  display: grid;
+                  grid-template-columns: repeat(7, minmax(0, 1fr));
+                  gap: 3px;
+                  margin-top: 12px;
+                "
+              >
+                <sc-for list="{{mes.celdas}}" as="celda" hint-placeholder-count="35">
+                  <div
+                    style="aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 10.5px; background: {{celda.fondo}}; color: {{celda.color}}; font-weight: {{celda.peso}};"
+                  >
+                    {{celda.dia}}
+                  </div>
+                </sc-for>
+              </div>
+
+              <sc-if value="{{mes.tieneEtiquetas}}" hint-placeholder-val="{{ true }}">
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    margin-top: 11px;
+                    padding-top: 10px;
+                    border-top: 1px solid oklch(0.32 0.018 260);
+                  "
+                >
+                  <sc-for list="{{mes.etiquetas}}" as="et" hint-placeholder-count="2">
+                    <div
+                      style="
+                        display: flex;
+                        align-items: center;
+                        gap: 7px;
+                        font-size: 11.5px;
+                        color: oklch(0.76 0.012 260);
+                      "
+                    >
+                      <span
+                        style="width: 6px; height: 6px; border-radius: 9999px; background: {{et.color}}; flex-shrink: 0;"
+                      ></span>
+                      <span>{{et.texto}}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <div
+          style="
+            margin-top: auto;
+            border-top: 1px solid oklch(0.32 0.018 260);
+            padding: 18px 48px;
+            font-size: 12.5px;
+            color: oklch(0.6 0.014 260);
+          "
+        >
+          Apaga todas las capas y queda el calendario plano: solo los días del mes.
+        </div>
+      </div>
+    </x-dc>
+
+    <script data-dc-script data-props='{"$preview":{"width":1280,"height":900}}'>
+      const CAPAS = [
+        { id: "festivos", nombre: "Festivos", color: "oklch(0.78 0.16 75)", cuenta: 19 },
+        { id: "fiestas", nombre: "Fiestas", color: "oklch(0.72 0.1 195)", cuenta: 8 },
+        { id: "eventos", nombre: "Eventos", color: "oklch(0.72 0.1 195)", cuenta: 5 },
+        { id: "carreras", nombre: "Carreras", color: "oklch(0.72 0.1 195)", cuenta: 4 },
+        { id: "temporadas", nombre: "Temporadas", color: "oklch(0.72 0.1 195)", cuenta: 3 },
+      ];
+
+      // Dias del anio 2026 marcados por capa. 1 de enero de 2026 cae en jueves.
+      const FESTIVOS = {
+        1: [1, 12],
+        3: [23],
+        4: [2, 3],
+        5: [1, 18],
+        6: [8, 15, 29],
+        7: [13, 20],
+        8: [7, 17],
+        10: [12],
+        11: [2, 16],
+        12: [8, 25],
+      };
+      const FIESTAS = { 2: [14, 15, 16, 17], 8: [7, 8, 9, 10], 12: [25, 26, 27, 28, 29, 30] };
+      const EVENTOS = { 4: [24, 25, 26], 9: [19] };
+      const CARRERAS = { 7: [26], 10: [4] };
+      const TEMPORADAS = { 6: [15, 16, 17, 18, 19, 20, 21, 22], 12: [15, 16, 17, 18, 19, 20] };
+
+      const ETIQUETAS = {
+        1: [["festivos", "Año Nuevo, Reyes"]],
+        2: [["fiestas", "Carnaval de Barranquilla"]],
+        4: [
+          ["festivos", "Semana Santa"],
+          ["eventos", "Feria del Libro"],
+        ],
+        6: [
+          ["festivos", "Corpus, Sagrado Corazón"],
+          ["temporadas", "Vacaciones de mitad de año"],
+        ],
+        7: [
+          ["festivos", "Chiquinquirá, Independencia"],
+          ["carreras", "Media maratón"],
+        ],
+        8: [
+          ["festivos", "Boyacá, La Asunción"],
+          ["fiestas", "Feria de las Flores"],
+        ],
+        12: [
+          ["festivos", "Inmaculada, Navidad"],
+          ["fiestas", "Feria de Cali"],
+        ],
+      };
+
+      const NOMBRES = [
+        "Enero",
+        "Febrero",
+        "Marzo",
+        "Abril",
+        "Mayo",
+        "Junio",
+        "Julio",
+        "Agosto",
+        "Septiembre",
+        "Octubre",
+        "Noviembre",
+        "Diciembre",
+      ];
+      const LARGO = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      // Dia de la semana (0 = lunes) en que empieza cada mes de 2026.
+      const ARRANQUE = [3, 6, 6, 2, 4, 0, 2, 5, 1, 3, 6, 1];
+
+      const FUENTES = {
+        festivos: FESTIVOS,
+        fiestas: FIESTAS,
+        eventos: EVENTOS,
+        carreras: CARRERAS,
+        temporadas: TEMPORADAS,
+      };
+
+      class Component extends DCLogic {
+        constructor(props) {
+          super(props);
+          this.state = { activas: ["festivos", "fiestas"] };
+        }
+
+        alternar(id) {
+          const activas = this.state.activas.includes(id)
+            ? this.state.activas.filter((x) => x !== id)
+            : [...this.state.activas, id];
+          this.setState({ activas });
+        }
+
+        renderVals() {
+          const activas = this.state.activas;
+
+          const capas = CAPAS.map((c) => {
+            const on = activas.includes(c.id);
+            return {
+              nombre: c.nombre,
+              cuenta: c.cuenta,
+              punto: on ? c.color : "oklch(0.42 0.02 260)",
+              borde: on ? c.color : "oklch(0.32 0.018 260)",
+              fondo: on ? "oklch(0.26 0.018 260)" : "transparent",
+              texto: on ? "oklch(0.96 0.005 260)" : "oklch(0.6 0.014 260)",
+              contadorColor: on ? c.color : "oklch(0.42 0.02 260)",
+              alternar: () => this.alternar(c.id),
+            };
+          });
+
+          const marcado = (mes, dia) => {
+            for (const c of CAPAS) {
+              if (!activas.includes(c.id)) continue;
+              const dias = FUENTES[c.id][mes];
+              if (dias && dias.includes(dia)) return c;
+            }
+            return null;
+          };
+
+          const meses = NOMBRES.map((nombre, i) => {
+            const mes = i + 1;
+            const celdas = [];
+            for (let h = 0; h < ARRANQUE[i]; h += 1) {
+              celdas.push({ dia: "", fondo: "transparent", color: "transparent", peso: "400" });
+            }
+            for (let d = 1; d <= LARGO[i]; d += 1) {
+              const c = marcado(mes, d);
+              const hoy = mes === 9 && d === 13;
+              celdas.push({
+                dia: String(d),
+                fondo: c
+                  ? c.id === "festivos"
+                    ? "oklch(0.42 0.09 75)"
+                    : "oklch(0.36 0.05 195)"
+                  : hoy
+                    ? "oklch(0.38 0.1 20)"
+                    : "oklch(0.22 0.016 260)",
+                color: c || hoy ? "oklch(0.96 0.005 260)" : "oklch(0.6 0.014 260)",
+                peso: c || hoy ? "600" : "400",
+              });
+            }
+
+            const etiquetas = (ETIQUETAS[mes] || [])
+              .filter(([capa]) => activas.includes(capa))
+              .map(([capa, texto]) => ({
+                texto,
+                color: capa === "festivos" ? "oklch(0.78 0.16 75)" : "oklch(0.72 0.1 195)",
+              }));
+
+            return {
+              nombre,
+              dias: LARGO[i],
+              celdas,
+              etiquetas,
+              tieneEtiquetas: etiquetas.length > 0,
+            };
+          });
+
+          const total = CAPAS.filter((c) => activas.includes(c.id)).reduce(
+            (s, c) => s + c.cuenta,
+            0
+          );
+          const resumen =
+            activas.length === 0
+              ? "Calendario plano — ninguna capa encendida"
+              : total +
+                " entradas en " +
+                activas.length +
+                (activas.length === 1 ? " capa" : " capas");
+
+          return { capas, meses, resumen };
+        }
+      }
+    </script>
+  </body>
+</html>
