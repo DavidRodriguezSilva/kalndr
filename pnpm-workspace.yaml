@@ -1,0 +1,5 @@
+# esbuild trae un binario nativo y necesita ejecutar su script de instalacion.
+# Se aprueba explicitamente; cualquier otra dependencia que pida ejecutar
+# scripts queda bloqueada hasta que se revise a mano.
+allowBuilds:
+  esbuild: true

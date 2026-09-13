@@ -1,0 +1,25 @@
+# Dependencias
+node_modules/
+
+# Salida de build de Astro
+/dist
+/.astro
+
+# Logs
+logs
+*.log
+npm-debug.log*
+.pnpm-debug.log*
+
+# Cache de TypeScript
+*.tsbuildinfo
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Sistema operativo y editores
+.DS_*
+*.sublime*
+.vscode-test

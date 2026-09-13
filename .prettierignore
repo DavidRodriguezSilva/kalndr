@@ -1,0 +1,6 @@
+dist
+.astro
+pnpm-lock.yaml
+# El canvas de diseño se genera con la herramienta de diseño; formatearlo
+# puede romper su bloque de estado embebido.
+diseno/*.html
