@@ -43,6 +43,23 @@ Los rastreadores de IA están **explícitamente permitidos** en `robots.txt`. Es
 una decisión, no un descuido: el objetivo es que cuando alguien le pregunte a
 un asistente cuándo es el próximo festivo, la respuesta salga de aquí.
 
+## Calculadora de días
+
+`/calculadora/` responde cuántos días hay entre dos fechas, cuántos son
+hábiles y cuántos en base 360. Dos campos y el resultado aparece solo; si una
+fecha no sirve, una línea debajo dice qué corregir.
+
+Dos cosas que las calculadoras del montón hacen mal y aquí no:
+
+- **Dice cuál número está dando.** Del 1 al 8 de enero hay 7 días de
+  diferencia y 8 contando ambos extremos. Casi toda discusión sobre "cuántos
+  días hay entre" es en realidad una discusión sobre cuál de los dos se está
+  usando, así que se muestran los dos con su nombre.
+- **Descuenta el festivo correcto.** Los días hábiles se calculan sobre la
+  fecha efectiva de descanso, ya trasladada por la Ley Emiliani: si el 15 de
+  agosto cae sábado, el día que no se trabaja es el lunes 17. Y se lista qué
+  festivos cayeron en el rango.
+
 ## Apariencia
 
 Los tokens siguen la convención de **shadcn/ui** —la misma que exporta
@@ -94,13 +111,13 @@ Node 24 y pnpm. La versión exacta está en `.node-version`.
 
 ```text
 src/
-  domain/      el cálculo: festivos, Pascua, días hábiles, reglas, capas, temas
+  domain/      el cálculo: festivos, Pascua, días hábiles, conteo, reglas, capas, temas
   data/        las hojas editables: eventos.json y temas.json
   seo/         identidad, URLs canónicas, datos estructurados, marca y tarjetas
   lib/         rangos de prerenderizado y utilidades de la capa Astro
   components/  islas React (calendario, cuenta regresiva) y componentes Astro
   layouts/     el esqueleto HTML con todo el `<head>`
-  pages/       rutas HTML, la API y las imágenes para compartir
+  pages/       rutas HTML, la calculadora, la API y las imágenes para compartir
   styles/      tokens (OKLCH) y un archivo por temporada en `temas/`
 scripts/
   iconos.mjs   genera favicon e iconos de aplicación desde la marca
