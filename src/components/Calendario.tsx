@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { ExternalLink, RotateCcw } from "lucide-react";
+import { Briefcase, ExternalLink, RotateCcw, Search } from "lucide-react";
 import { calendario } from "@/domain/calendario";
 import { CAPAS, CAPAS_POR_DEFECTO } from "@/domain/capas";
 import { anioActual } from "@/domain/festivos";
+import { esDiaHabil } from "@/domain/habiles";
 import { formatoLargo, nombreMes } from "@/domain/fechas";
 import type { EntradaCalendario } from "@/domain/tipos";
 import { cn } from "@/lib/cn";
@@ -63,6 +64,13 @@ const COLOR = {
 const TOKEN_POR_CAPA = new Map(CAPAS.map((c) => [c.id, c.token]));
 const colorDe = (capa: string) => COLOR[TOKEN_POR_CAPA.get(capa) ?? "fiesta"];
 
+/** Sin tildes y en minusculas, para que "san jose" encuentre "San José". */
+const plano = (texto: string) =>
+  texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+
 /** Dia de la semana con el lunes en la posicion 0, que es como se lee aqui. */
 const columna = (fecha: string) => (new Date(`${fecha}T00:00:00Z`).getUTCDay() + 6) % 7;
 
@@ -77,6 +85,8 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
   const [seleccionado, setSeleccionado] = useState<string | null>(null);
   const [capas, setCapas] = useState<readonly string[]>(CAPAS_POR_DEFECTO);
   const [hoyReal, setHoyReal] = useState(hoy);
+  const [busqueda, setBusqueda] = useState("");
+  const [soloHabiles, setSoloHabiles] = useState(false);
 
   const listaRef = useRef<HTMLUListElement>(null);
   const hoyRef = useRef<HTMLDivElement>(null);
@@ -121,6 +131,24 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
   }, [capas]);
 
   const entradas = useMemo(() => calendario(anio, capas), [anio, capas]);
+
+  /** La agenda se filtra; el almanaque sigue mostrando el anio completo. */
+  const visibles = useMemo(() => {
+    const aguja = plano(busqueda.trim());
+    if (!aguja) return entradas;
+    return entradas.filter(
+      (e) => plano(e.nombre).includes(aguja) || plano(e.resumen ?? "").includes(aguja)
+    );
+  }, [entradas, busqueda]);
+
+  /** Dias habiles por mes, para cuando se mira el calendario como laboral. */
+  const habilesPorMes = useMemo(() => {
+    if (!soloHabiles) return null;
+    return Array.from(
+      { length: 12 },
+      (_, i) => diasDelMes(anio, i + 1).filter((d) => esDiaHabil(d)).length
+    );
+  }, [anio, soloHabiles]);
 
   /** La capa que pinta cada dia del anio. El festivo manda sobre las demas. */
   const marcados = useMemo(() => {
@@ -192,7 +220,7 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
     );
 
   const hoyEsteAnio = hoyReal.slice(0, 4) === String(anio);
-  const indiceHoy = hoyEsteAnio ? entradas.findIndex((e) => e.fin >= hoyReal) : -1;
+  const indiceHoy = hoyEsteAnio ? visibles.findIndex((e) => e.fin >= hoyReal) : -1;
   const hoyAlFinal = hoyEsteAnio && indiceHoy === -1;
   const anios = Array.from({ length: anioMaximo - anioMinimo + 1 }, (_, i) => anioMinimo + i);
 
@@ -242,6 +270,24 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
             Plano
           </button>
         )}
+
+        {/* No es una capa sino una lente: no anade fechas, cambia como se
+            leen las que ya hay. Por eso va separado de las pastillas. */}
+        <button
+          type="button"
+          onClick={() => setSoloHabiles((v) => !v)}
+          aria-pressed={soloHabiles}
+          title="Apagar fines de semana y festivos para ver el calendario laboral"
+          className={cn(
+            "ml-auto flex min-h-9 items-center gap-2 rounded-full border px-3.5 text-sm transition-colors",
+            soloHabiles
+              ? "border-transparent bg-muted text-foreground"
+              : "border-border text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <Briefcase size={14} aria-hidden />
+          Días hábiles
+        </button>
       </div>
 
       {/* ── Años ───────────────────────────────────────────────────────── */}
@@ -283,7 +329,14 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
               const dias = diasDelMes(anio, m);
               return (
                 <div key={m}>
-                  <p className="mb-1.5 text-sm font-semibold capitalize">{nombreMes(dias[0]!)}</p>
+                  <p className="mb-1.5 flex items-baseline justify-between gap-1 text-sm font-semibold capitalize">
+                    {nombreMes(dias[0]!)}
+                    {habilesPorMes && (
+                      <span className="font-mono text-[11px] font-normal text-muted-foreground">
+                        {habilesPorMes[m - 1]} hábiles
+                      </span>
+                    )}
+                  </p>
 
                   <div
                     className="grid grid-cols-7 gap-px text-center text-[9px] uppercase text-muted-foreground/70"
@@ -316,6 +369,7 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
                           className={cn(
                             "flex aspect-square items-center justify-center rounded-[3px] font-mono text-[11px] transition-colors",
                             marca ? colorDe(marca).solido : "text-muted-foreground hover:bg-muted",
+                            soloHabiles && !esDiaHabil(dia) && "opacity-30",
                             esHoy && "ring-2 ring-hoy",
                             activo && "ring-2 ring-ring"
                           )}
@@ -350,20 +404,37 @@ export default function Calendario({ anioInicial, anioMinimo, anioMaximo, hoy }:
           aria-label={`Agenda de ${anio}`}
           className="flex max-h-[36rem] min-h-0 flex-col rounded-lg border border-border bg-card"
         >
-          <div className="flex items-baseline justify-between border-b border-border px-4 py-3">
-            <h2 className="text-sm font-semibold">Agenda {anio}</h2>
-            <span className="font-mono text-xs text-muted-foreground">
-              {entradas.length} {entradas.length === 1 ? "entrada" : "entradas"}
-            </span>
+          <div className="border-b border-border px-4 py-3">
+            <div className="flex items-baseline justify-between">
+              <h2 className="text-sm font-semibold">Agenda {anio}</h2>
+              <span className="font-mono text-xs text-muted-foreground">
+                {busqueda.trim() ? `${visibles.length} de ${entradas.length}` : entradas.length}{" "}
+                {entradas.length === 1 ? "entrada" : "entradas"}
+              </span>
+            </div>
+
+            <div className="mt-2 flex items-center gap-2 border-b border-transparent pb-0.5 focus-within:border-ring">
+              <Search size={14} aria-hidden className="shrink-0 text-muted-foreground" />
+              <input
+                type="search"
+                value={busqueda}
+                onChange={(e) => setBusqueda(e.target.value)}
+                placeholder="Buscar en la agenda"
+                aria-label={`Buscar en la agenda de ${anio}`}
+                className="w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+              />
+            </div>
           </div>
 
-          {entradas.length === 0 ? (
+          {visibles.length === 0 ? (
             <p className="px-4 py-10 text-center text-sm text-muted-foreground">
-              Calendario plano. Enciende una capa para ver qué pasa este año.
+              {busqueda.trim()
+                ? `Nada en ${anio} que coincida con «${busqueda.trim()}».`
+                : "Calendario plano. Enciende una capa para ver qué pasa este año."}
             </p>
           ) : (
             <ul ref={listaRef} className="min-h-0 flex-1 divide-y divide-border overflow-y-auto">
-              {entradas.map((entrada, i) => {
+              {visibles.map((entrada, i) => {
                 const abierta = entrada.inicio === seleccionado;
                 const pasada = entrada.fin < hoyReal;
                 const rango = entrada.inicio !== entrada.fin;

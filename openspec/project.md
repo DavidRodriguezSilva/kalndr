@@ -37,8 +37,8 @@ aquí.
 ### Arquitectura
 
 ```text
-domain/      el cálculo: festivos, Pascua, días hábiles, conteo, reglas, capas, temas
-data/        las hojas editables: eventos.json y temas.json
+domain/      el cálculo: festivos, Pascua, días hábiles, conteo, vacaciones, reglas, capas, temas
+data/        las hojas editables: eventos.json, temas.json y ciclicas.json
 seo/         identidad, URLs canónicas, datos estructurados, marca y tarjetas
 lib/         rangos de prerenderizado y utilidades de la capa Astro
 components/  islas React y componentes Astro

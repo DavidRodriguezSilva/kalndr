@@ -43,6 +43,25 @@ Los rastreadores de IA están **explícitamente permitidos** en `robots.txt`. Es
 una decisión, no un descuido: el objetivo es que cuando alguien le pregunte a
 un asistente cuándo es el próximo festivo, la respuesta salga de aquí.
 
+## Cuándo pedir vacaciones
+
+`/vacaciones/` responde la pregunta que ningún calendario de festivos
+responde: _tengo cinco días, ¿cuándo los pido para descansar más?_
+
+El cálculo es exhaustivo, no a ojo. Se prueban todos los bloques de días
+hábiles seguidos que se podrían pedir en el año y se mira hasta dónde se
+estira el descanso pegándose a los fines de semana y festivos de al lado. Un
+año son unos pocos miles de combinaciones: cabe entero en el navegador.
+
+En 2026, pedir cuatro días entre Corpus Christi y el Sagrado Corazón encadena
+**diez días seguidos**. Eso no se ve mirando una tabla de fechas, y es
+exactamente el tipo de cosa por la que existe este sitio.
+
+Devuelve dos respuestas distintas a propósito: cómo **repartir** el
+presupuesto en varios tramos del año, que es lo que de verdad hace alguien con
+quince días, y las mejores **ventanas sueltas**, que es lo que sirve cuando
+solo se va a pedir una vez.
+
 ## Calculadora de días
 
 `/calculadora/` responde cuántos días hay entre dos fechas, cuántos son
@@ -112,13 +131,13 @@ Node 24 y pnpm. La versión exacta está en `.node-version`.
 
 ```text
 src/
-  domain/      el cálculo: festivos, Pascua, días hábiles, conteo, reglas, capas, temas
-  data/        las hojas editables: eventos.json y temas.json
+  domain/      el cálculo: festivos, Pascua, días hábiles, conteo, vacaciones, reglas, capas, temas
+  data/        las hojas editables: eventos.json, temas.json y ciclicas.json
   seo/         identidad, URLs canónicas, datos estructurados, marca y tarjetas
   lib/         rangos de prerenderizado y utilidades de la capa Astro
   components/  islas React (calendario, cuenta regresiva) y componentes Astro
   layouts/     el esqueleto HTML con todo el `<head>`
-  pages/       rutas HTML, la calculadora, la API y las imágenes para compartir
+  pages/       rutas HTML, las herramientas, la API y las imágenes para compartir
   styles/      tokens (OKLCH) y un archivo por temporada en `temas/`
 scripts/
   iconos.mjs   genera favicon e iconos de aplicación desde la marca

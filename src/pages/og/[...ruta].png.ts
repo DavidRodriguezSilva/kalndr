@@ -37,6 +37,16 @@ export function getStaticPaths() {
     },
   };
 
+  const vacaciones: { params: { ruta: string }; props: Tarjeta } = {
+    params: { ruta: "vacaciones" },
+    props: {
+      etiqueta: "Herramienta",
+      titulo: "Cuándo pedir vacaciones",
+      pie: "Saca más días libres con los mismos días de vacaciones",
+      acento: "#5fb8c4",
+    },
+  };
+
   const anios = ANIOS_PAGINA.map((a) => {
     const lista = calcularFestivos(a);
     const puentes = lista.filter((f) => new Date(`${f.fecha}T00:00:00Z`).getUTCDay() === 1);
@@ -73,7 +83,7 @@ export function getStaticPaths() {
     };
   });
 
-  return [inicio, calculadora, ...anios, ...festividades];
+  return [inicio, calculadora, vacaciones, ...anios, ...festividades];
 }
 
 export const GET: APIRoute = ({ props }) => {
