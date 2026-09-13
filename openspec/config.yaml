@@ -1,0 +1,75 @@
+schema: spec-driven
+
+context: |
+  Producto: KALNDR (repo `kalndr`), el calendario de los festivos de Colombia,
+  servido como sitio estatico en GitHub Pages y pensado para dos lectores a la
+  vez: la persona que consulta y el agente que responde por ella. Ver
+  `README.md` para la vision, `docs/estrategia.md` para el porque de la forma
+  del sitio, `docs/formato-fichas.md` para el formato de festividades y
+  `docs/api.md` para el contrato de la API. Parte de la familia DarkForest
+  (dark-echo, dark-owl).
+
+  Stack: TypeScript estricto, Astro 7 con islas React 19, Tailwind v4 con
+  primitivas de shadcn/ui copiadas al repositorio (no instaladas como
+  libreria), iconos de lucide-react, Vitest en Node para el dominio, pnpm. Sin
+  backend ni base de datos: todo se calcula en el build o en el navegador.
+
+  Arquitectura. `src/domain/` es TypeScript puro: no conoce Astro, ni React, ni
+  el DOM. Por eso el mismo calculo corre en los tests de Node, en el build y
+  —enviado al navegador— dentro de una isla. Esa independencia no es estetica:
+  es lo que permite que la cuenta regresiva se corrija con el reloj real del
+  visitante sobre un sitio estatico.
+
+    domain/      festivos, Pascua, dias habiles, reglas de recurrencia, capas
+    data/        las hojas editables: eventos.json y temas.json
+    seo/         identidad del sitio, URLs canonicas, datos estructurados
+    lib/         rangos de prerenderizado y utilidades de la capa Astro
+    components/  islas React y componentes Astro
+    layouts/     esqueleto HTML y <head> completo
+    pages/       rutas HTML y endpoints estaticos de la API
+    styles/      tokens de apariencia en OKLCH y capa base
+
+  El calculo es un port del algoritmo de produccion en C# (`DiasExtensions`):
+  Domingo de Pascua por Meeus/Jones/Butcher, traslado al lunes de la Ley 51 de
+  1983 (Emiliani) y Virgen del Rosario de Chiquinquira desde 2026 por la Ley
+  2578. Calculable entre 1583 y 2099; antes de 1984 el resultado es un
+  anacronismo declarado. Se publican como pagina los cinco anios a cada lado
+  del actual; la API cubre 1984-2099.
+
+  Contrato de apariencia: `styles/tokens.css` usa los nombres de shadcn/ui
+  (los que exporta tweakcn) en OKLCH, con `:root` claro y `.dark` oscuro, mas
+  los tokens propios `festivo`, `fiesta` y `hoy`. Solo estan los tokens que se
+  usan. Un segundo eje, `[data-tema]`, cambia la apariencia por temporada
+  (`styles/temas/`, periodos en `data/temas.json`). Un color literal en un
+  componente es, por definicion, un token que falta.
+
+  El calendario es una pila de capas encendibles (festivos, fiestas, eventos,
+  carreras, temporadas). Apagarlas todas deja el calendario plano, y esa es una
+  vista valida. Los festivos se calculan; el resto vive en una sola hoja,
+  `src/data/eventos.json`, donde toda fila tiene la misma forma.
+
+  Convencion de commits: mensajes en espaniol, imperativo, estilo Conventional
+  Commits (`feat(scope): ...`), sin firma manual ademas del `Co-Authored-By`
+  que anade la herramienta.
+
+rules:
+  proposal:
+    - Si el change toca fechas, decir en el Why si cambia alguna fecha ya
+      publicada. Una fecha que cambia sin aviso es lo unico que este sitio no
+      se puede permitir.
+  design:
+    - Toda decision que anada una dependencia debe justificar por que no basta
+      con codigo propio, y si entra a `domain/` o solo a la capa de UI. El
+      dominio no depende de nada externo, y esa es la condicion para que corra
+      igual en Node, en el build y en el navegador.
+    - Toda decision que afecte lo que se prerenderiza debe decir que pasa con
+      el publico humano y que pasa con el publico agente. Son dos criterios
+      distintos y atarlos al mismo rango suele ser un error.
+  tasks:
+    - Toda regla de fecha nueva (un festivo, una recurrencia) incluye, como
+      tarea separada, el test que la verifica contra un anio calculado a mano.
+    - Toda fila nueva de la hoja de eventos incluye su enlace a Wikipedia; el
+      test de la hoja lo verifica.
+  specs:
+    - Un requisito sobre una fecha referencia la ley o el algoritmo que la
+      produce, no la fecha ya calculada.
