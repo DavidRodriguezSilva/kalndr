@@ -1,0 +1,122 @@
+/**
+ * Contrato de apariencia.
+ *
+ * Los nombres siguen la convención de shadcn/ui —la misma que exporta
+ * tweakcn— a propósito: cualquier tema generado allí se pega aquí y funciona,
+ * y cualquier primitiva de shadcn copiada al repositorio toma los colores sin
+ * tocarle una línea. Lo que no usamos no está: no hay `chart-*` ni
+ * `sidebar-*` porque este sitio no tiene ni gráficas ni barra lateral.
+ *
+ * Encima del contrato estándar viven los tokens del dominio —`festivo`,
+ * `fiesta`, `hoy`— que son los únicos colores que este producto necesita y
+ * que shadcn no tiene por qué conocer.
+ *
+ * Todo el color va en OKLCH: es perceptualmente uniforme, así que subir la
+ * luminosidad no gira el tono por el camino y los estados derivados salen con
+ * aritmética en vez de a ojo.
+ *
+ * Dos ejes, ortogonales entre sí:
+ *   - Esquema: `:root` claro, `.dark` oscuro. El sitio arranca en oscuro
+ *     porque pertenece a DarkForest, pero el eje existe y el usuario manda.
+ *   - Temporada: `[data-tema]` sobreescribe un puñado de tokens según la
+ *     época del año o la fiesta en curso. Ver `src/styles/temas/`.
+ *
+ * Regla que sostiene el resto: un color literal en un componente es, por
+ * definición, un token que falta.
+ */
+
+:root {
+  --background: oklch(0.985 0.004 260);
+  --foreground: oklch(0.22 0.015 260);
+
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.015 260);
+
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.015 260);
+
+  --primary: oklch(0.62 0.15 60);
+  --primary-foreground: oklch(0.99 0.01 75);
+
+  --secondary: oklch(0.96 0.006 260);
+  --secondary-foreground: oklch(0.3 0.015 260);
+
+  --muted: oklch(0.96 0.006 260);
+  --muted-foreground: oklch(0.52 0.014 260);
+
+  --accent: oklch(0.52 0.09 195);
+  --accent-foreground: oklch(0.99 0.005 195);
+
+  --destructive: oklch(0.56 0.18 20);
+  --destructive-foreground: oklch(0.99 0.01 20);
+
+  --border: oklch(0.9 0.008 260);
+  --input: oklch(0.9 0.008 260);
+  --ring: oklch(0.62 0.15 60);
+
+  /* ── Dominio ──────────────────────────────────────────────────────────
+     El día festivo, la fiesta que no da descanso, y hoy. Son las tres
+     cosas que este calendario distingue, y por eso son tokens y no
+     variantes de `primary`. */
+  --festivo: oklch(0.62 0.15 60);
+  --festivo-foreground: oklch(0.99 0.01 75);
+  --festivo-muted: oklch(0.93 0.06 75);
+
+  --fiesta: oklch(0.52 0.09 195);
+  --fiesta-foreground: oklch(0.99 0.005 195);
+  --fiesta-muted: oklch(0.93 0.03 195);
+
+  --hoy: oklch(0.56 0.18 20);
+  --hoy-foreground: oklch(0.99 0.01 20);
+  --hoy-muted: oklch(0.94 0.05 20);
+
+  /* ── Forma y tipografía ───────────────────────────────────────────── */
+  --radius: 0.625rem;
+
+  --font-sans:
+    "Bricolage Grotesque", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+
+.dark {
+  --background: oklch(0.16 0.012 260);
+  --foreground: oklch(0.96 0.005 260);
+
+  --card: oklch(0.22 0.016 260);
+  --card-foreground: oklch(0.96 0.005 260);
+
+  --popover: oklch(0.22 0.016 260);
+  --popover-foreground: oklch(0.96 0.005 260);
+
+  --primary: oklch(0.78 0.16 75);
+  --primary-foreground: oklch(0.18 0.03 75);
+
+  --secondary: oklch(0.26 0.018 260);
+  --secondary-foreground: oklch(0.96 0.005 260);
+
+  --muted: oklch(0.26 0.018 260);
+  --muted-foreground: oklch(0.7 0.014 260);
+
+  --accent: oklch(0.72 0.1 195);
+  --accent-foreground: oklch(0.18 0.02 195);
+
+  --destructive: oklch(0.7 0.17 20);
+  --destructive-foreground: oklch(0.18 0.03 20);
+
+  --border: oklch(0.32 0.018 260);
+  --input: oklch(0.32 0.018 260);
+  --ring: oklch(0.78 0.16 75);
+
+  --festivo: oklch(0.78 0.16 75);
+  --festivo-foreground: oklch(0.18 0.03 75);
+  --festivo-muted: oklch(0.42 0.09 75);
+
+  --fiesta: oklch(0.72 0.1 195);
+  --fiesta-foreground: oklch(0.18 0.02 195);
+  --fiesta-muted: oklch(0.36 0.05 195);
+
+  --hoy: oklch(0.7 0.17 20);
+  --hoy-foreground: oklch(0.18 0.03 20);
+  --hoy-muted: oklch(0.38 0.1 20);
+}

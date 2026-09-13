@@ -1,0 +1,26 @@
+/* Feria de las Flores: verde de Santa Elena con el rosa de las silletas. */
+[data-tema="flores"] {
+  --background: oklch(0.985 0.01 140);
+  --primary: oklch(0.55 0.13 155);
+  --ring: oklch(0.55 0.13 155);
+  --accent: oklch(0.58 0.14 10);
+  --accent-foreground: oklch(0.99 0.01 10);
+  --festivo: oklch(0.55 0.13 155);
+  --festivo-muted: oklch(0.93 0.05 150);
+  --fiesta: oklch(0.58 0.14 10);
+  --fiesta-muted: oklch(0.94 0.05 10);
+}
+
+.dark[data-tema="flores"] {
+  --background: oklch(0.16 0.016 155);
+  --card: oklch(0.22 0.02 155);
+  --border: oklch(0.32 0.024 155);
+  --primary: oklch(0.76 0.14 150);
+  --ring: oklch(0.76 0.14 150);
+  --accent: oklch(0.74 0.13 10);
+  --accent-foreground: oklch(0.18 0.03 10);
+  --festivo: oklch(0.76 0.14 150);
+  --festivo-muted: oklch(0.4 0.08 150);
+  --fiesta: oklch(0.74 0.13 10);
+  --fiesta-muted: oklch(0.38 0.07 10);
+}

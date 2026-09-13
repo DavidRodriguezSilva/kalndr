@@ -1,0 +1,14 @@
+/* Temporada seca: luz alta, sombra corta. Un grado más de calidez en el
+   fondo y nada más — el sol no necesita anunciarse. */
+[data-tema="seco"] {
+  --background: oklch(0.99 0.008 95);
+  --muted: oklch(0.96 0.012 95);
+  --border: oklch(0.91 0.012 95);
+}
+
+.dark[data-tema="seco"] {
+  --background: oklch(0.17 0.012 80);
+  --card: oklch(0.23 0.016 80);
+  --muted: oklch(0.27 0.018 80);
+  --border: oklch(0.33 0.018 80);
+}

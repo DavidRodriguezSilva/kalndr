@@ -1,0 +1,26 @@
+/* Semana Santa: morado litúrgico, contraste bajo, nada de fiesta. */
+[data-tema="semana-santa"] {
+  --background: oklch(0.98 0.008 310);
+  --primary: oklch(0.48 0.12 310);
+  --ring: oklch(0.48 0.12 310);
+  --accent: oklch(0.5 0.06 280);
+  --accent-foreground: oklch(0.99 0.005 280);
+  --festivo: oklch(0.48 0.12 310);
+  --festivo-muted: oklch(0.93 0.04 310);
+  --fiesta: oklch(0.5 0.06 280);
+  --fiesta-muted: oklch(0.94 0.02 280);
+}
+
+.dark[data-tema="semana-santa"] {
+  --background: oklch(0.16 0.018 310);
+  --card: oklch(0.22 0.024 310);
+  --border: oklch(0.32 0.028 310);
+  --primary: oklch(0.72 0.12 310);
+  --ring: oklch(0.72 0.12 310);
+  --accent: oklch(0.68 0.07 280);
+  --accent-foreground: oklch(0.17 0.02 280);
+  --festivo: oklch(0.72 0.12 310);
+  --festivo-muted: oklch(0.38 0.07 310);
+  --fiesta: oklch(0.68 0.07 280);
+  --fiesta-muted: oklch(0.34 0.04 280);
+}
