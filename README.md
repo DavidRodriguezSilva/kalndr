@@ -103,6 +103,7 @@ pnpm dev          # http://localhost:4321/kalndr/
 pnpm test         # el dominio, en Node, sin navegador
 pnpm build        # typecheck + sitio estático en dist/
 pnpm iconos       # regenera favicon e iconos desde la marca
+pnpm fechas       # lista las fechas estimadas que hay que confirmar
 ```
 
 Node 24 y pnpm. La versión exacta está en `.node-version`.
@@ -162,6 +163,23 @@ con CORS abierto.
 
 La documentación navegable está en `/api/`; los enlaces de arriba devuelven
 datos crudos.
+
+## Funciona sin conexión
+
+Instalable como aplicación y utilizable sin red. No es adorno: el cálculo
+entero vive en el navegador, así que una vez cargada responde sin conexión —
+que es justo la situación en la que alguien mira si el lunes es festivo, de
+pie y con mala señal. Lo único que necesita red es estrenar un año que no se
+haya visto.
+
+## Fechas que hay que confirmar
+
+Casi ninguna carrera y varias fiestas anuncian su fecha cada año. La hoja las
+declara con la ventana habitual y `"precision": "estimada"`, que es honesto,
+pero sin un recordatorio nadie las revisa y el sitio envejece sin avisar.
+
+`pnpm fechas` lista lo que está por confirmar, y el flujo
+`revisar-fechas.yml` abre un issue con esa lista cada 5 de enero.
 
 ## Al compartir un enlace
 

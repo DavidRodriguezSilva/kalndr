@@ -47,6 +47,25 @@
     "anotaciones": ["No es festivo: solo el 6 lo es, porque cae Reyes Magos."]
   },
   {
+    "id": "dia-de-las-velitas",
+    "titulo": "Día de las Velitas",
+    "capa": "fiestas",
+    "descripcion": "La noche en que el país entero saca faroles a la puerta. Aquí arranca la Navidad, no el 24.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "fija",
+      "mes": 12,
+      "dia": 7
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/D%C3%ADa_de_las_Velitas",
+    "curiosidades": [
+      "Se prenden la víspera de la Inmaculada, que sí es festivo.",
+      "En Quimbaya, Quindío, el alumbrado es un concurso entre barrios."
+    ],
+    "anotaciones": ["El 7 no es festivo; el 8 sí."]
+  },
+  {
     "id": "feria-de-cali",
     "titulo": "Feria de Cali",
     "capa": "fiestas",
@@ -189,6 +208,26 @@
     "anotaciones": []
   },
   {
+    "id": "novena-de-aguinaldos",
+    "titulo": "Novena de Aguinaldos",
+    "capa": "fiestas",
+    "descripcion": "Nueve noches de rezo, natilla y buñuelo en casa ajena. La excusa perfecta para no cocinar.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "fija",
+      "mes": 12,
+      "dia": 16,
+      "dias": 9
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Novena_de_aguinaldos",
+    "curiosidades": [
+      "La escribió fray Fernando de Jesús Larrea en el siglo XVIII.",
+      "Se reza del 16 al 24, una casa distinta cada noche."
+    ],
+    "anotaciones": []
+  },
+  {
     "id": "semana-santa-en-popayan",
     "titulo": "Semana Santa en Popayán",
     "capa": "fiestas",
@@ -278,6 +317,58 @@
     "anotaciones": ["Las fechas se mueven entre junio y julio según el año."]
   },
   {
+    "id": "ya-huele-a-diciembre",
+    "titulo": "Ya huele a diciembre",
+    "capa": "eventos",
+    "descripcion": "Alguien lo dice el primero de septiembre y ya no hay vuelta atrás: faltan cuatro meses y el país entero se resigna.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "fija",
+      "mes": 9,
+      "dia": 1
+    },
+    "precision": "exacta",
+    "wikipedia": "",
+    "curiosidades": ["No es una fecha oficial de nada. Es una costumbre, y se cumple sin falta."],
+    "anotaciones": ["Septiembre es el único mes del año sin un solo festivo. Por algo será."]
+  },
+  {
+    "id": "clasico-rcn",
+    "titulo": "Clásico RCN",
+    "capa": "carreras",
+    "descripcion": "La otra gran vuelta colombiana, la que se corre cuando ya pasó la Vuelta a Colombia.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "fija",
+      "mes": 10,
+      "dia": 5,
+      "dias": 8
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Cl%C3%A1sico_RCN",
+    "curiosidades": ["Se corre desde 1961."],
+    "anotaciones": ["Las fechas las confirma la organización cada año."]
+  },
+  {
+    "id": "juegos-intercolegiados",
+    "titulo": "Juegos Intercolegiados",
+    "capa": "carreras",
+    "descripcion": "Las finales nacionales del deporte escolar: de donde sale buena parte de los deportistas del país.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "fija",
+      "mes": 11,
+      "dia": 15,
+      "dias": 10
+    },
+    "precision": "estimada",
+    "wikipedia": "",
+    "curiosidades": [],
+    "anotaciones": [
+      "Las fases municipales y departamentales van durante todo el año; aquí va la final nacional."
+    ]
+  },
+  {
     "id": "maraton-de-medellin",
     "titulo": "Maratón de Medellín",
     "capa": "carreras",
@@ -312,6 +403,23 @@
     "anotaciones": ["Las inscripciones abren varios meses antes y se agotan."]
   },
   {
+    "id": "vuelta-a-boyaca",
+    "titulo": "Vuelta a Boyacá",
+    "capa": "carreras",
+    "descripcion": "Ciclismo de altura por las montañas que produjeron a media mitad del pelotón mundial.",
+    "lugar": "Boyacá",
+    "regla": {
+      "tipo": "fija",
+      "mes": 9,
+      "dia": 20,
+      "dias": 6
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Vuelta_a_Boyac%C3%A1",
+    "curiosidades": [],
+    "anotaciones": ["El recorrido y las fechas cambian cada edición; aquí va la ventana habitual."]
+  },
+  {
     "id": "vuelta-a-colombia",
     "titulo": "Vuelta a Colombia",
     "capa": "carreras",
@@ -327,6 +435,30 @@
     "wikipedia": "https://es.wikipedia.org/wiki/Vuelta_a_Colombia",
     "curiosidades": ["Se corre desde 1951."],
     "anotaciones": ["El recorrido y las fechas cambian cada edición."]
+  },
+  {
+    "id": "inicio-de-clases",
+    "titulo": "Inicio de clases",
+    "capa": "temporadas",
+    "descripcion": "Vuelven los uniformes, los útiles y el trancón de las siete de la mañana.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "rango",
+      "desde": {
+        "mes": 1,
+        "dia": 20
+      },
+      "hasta": {
+        "mes": 2,
+        "dia": 10
+      }
+    },
+    "precision": "estimada",
+    "wikipedia": "",
+    "curiosidades": [],
+    "anotaciones": [
+      "Calendario A, que es el de casi todo el país. El calendario B arranca en agosto."
+    ]
   },
   {
     "id": "semana-de-receso",
@@ -345,6 +477,28 @@
     "wikipedia": "",
     "curiosidades": [],
     "anotaciones": ["Suele arrancar con el festivo del Día de la Raza."]
+  },
+  {
+    "id": "temporada-de-cometas",
+    "titulo": "Temporada de cometas",
+    "capa": "temporadas",
+    "descripcion": "Agosto es el mes de los vientos: todo potrero del país amanece con cometas.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "rango",
+      "desde": {
+        "mes": 8,
+        "dia": 1
+      },
+      "hasta": {
+        "mes": 8,
+        "dia": 31
+      }
+    },
+    "precision": "exacta",
+    "wikipedia": "",
+    "curiosidades": ["Los vientos alisios de mitad de año son los que la hacen posible."],
+    "anotaciones": []
   },
   {
     "id": "temporada-de-fin-de-ano",
@@ -389,5 +543,23 @@
     "wikipedia": "",
     "curiosidades": [],
     "anotaciones": ["El calendario escolar varía por región; esto es el grueso del calendario A."]
+  },
+  {
+    "id": "vacaciones-de-semana-santa",
+    "titulo": "Vacaciones de Semana Santa",
+    "capa": "temporadas",
+    "descripcion": "De Ramos a Pascua: colegios cerrados, carreteras llenas y la costa a reventar.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "pascua",
+      "desde": -7,
+      "hasta": 0
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Semana_Santa",
+    "curiosidades": [],
+    "anotaciones": [
+      "Jueves y Viernes Santo son festivos nacionales; el resto de la semana se trabaja."
+    ]
   }
 ]
