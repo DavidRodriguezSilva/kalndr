@@ -2,6 +2,7 @@
 import Base from "@/layouts/Base.astro";
 import Calendario from "@/components/Calendario";
 import ProximoFestivo from "@/components/ProximoFestivo";
+import Ciclicas from "@/components/Ciclicas";
 import {
   ANIO_MAXIMO_CALCULABLE,
   ANIO_REGIMEN_ACTUAL,
@@ -88,6 +89,18 @@ const faq = [
         hoy={hoy}
       />
     </div>
+
+    <!-- No son festivos ni dan el día libre, pero son las fechas que la gente
+         lleva en la cabeza, y este sitio ya sabe contar días. -->
+    <section class="mt-20" aria-labelledby="cuenta-atras">
+      <h2 id="cuenta-atras" class="text-2xl font-semibold tracking-tight">Cuenta atrás</h2>
+      <p class="mt-2 text-sm text-muted-foreground">
+        Las citas que vuelven cada cuatro años, para las que sí se planea con tiempo.
+      </p>
+      <div class="mt-6">
+        <Ciclicas client:load hoy={hoy} />
+      </div>
+    </section>
 
     <section class="mt-20" aria-labelledby="faq">
       <h2 id="faq" class="text-2xl font-semibold tracking-tight">Preguntas frecuentes</h2>

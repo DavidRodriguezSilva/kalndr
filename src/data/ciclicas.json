@@ -1,0 +1,62 @@
+[
+  {
+    "id": "mundial-2026",
+    "titulo": "Mundial de fútbol",
+    "edicion": "2026",
+    "sede": "Canadá, México y Estados Unidos",
+    "inicio": "2026-06-11",
+    "fin": "2026-07-19",
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Copa_Mundial_de_F%C3%BAtbol_de_2026"
+  },
+  {
+    "id": "juegos-nacionales-2027",
+    "titulo": "Juegos Nacionales",
+    "edicion": "2027",
+    "sede": "Colombia",
+    "inicio": "2027-11-01",
+    "fin": "2027-11-30",
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Juegos_Deportivos_Nacionales_de_Colombia"
+  },
+  {
+    "id": "mundial-femenino-2027",
+    "titulo": "Mundial femenino",
+    "edicion": "2027",
+    "sede": "Brasil",
+    "inicio": "2027-06-24",
+    "fin": "2027-07-25",
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Copa_Mundial_Femenina_de_F%C3%BAtbol_de_2027"
+  },
+  {
+    "id": "olimpicos-2028",
+    "titulo": "Juegos Olímpicos",
+    "edicion": "Los Ángeles 2028",
+    "sede": "Estados Unidos",
+    "inicio": "2028-07-14",
+    "fin": "2028-07-30",
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Juegos_Ol%C3%ADmpicos_de_Los_%C3%81ngeles_2028"
+  },
+  {
+    "id": "invierno-2030",
+    "titulo": "Juegos Olímpicos de Invierno",
+    "edicion": "Alpes franceses 2030",
+    "sede": "Francia",
+    "inicio": "2030-02-01",
+    "fin": "2030-02-17",
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Juegos_Ol%C3%ADmpicos_de_Invierno_de_2030"
+  },
+  {
+    "id": "mundial-2030",
+    "titulo": "Mundial de fútbol",
+    "edicion": "2030",
+    "sede": "España, Portugal y Marruecos",
+    "inicio": "2030-06-13",
+    "fin": "2030-07-21",
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Copa_Mundial_de_F%C3%BAtbol_de_2030"
+  }
+]

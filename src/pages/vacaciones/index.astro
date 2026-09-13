@@ -1,0 +1,150 @@
+---
+import Base from "@/layouts/Base.astro";
+import PlanVacaciones from "@/components/PlanVacaciones";
+import { SITIO, ruta, url } from "@/seo/sitio";
+import { migaDePan, preguntas } from "@/seo/jsonld";
+import { anioActual, calcularFestivos } from "@/domain/festivos";
+import { oportunidades } from "@/domain/vacaciones";
+import { nombreMes } from "@/domain/fechas";
+
+const anio = anioActual();
+const anios = [anio, anio + 1, anio + 2];
+
+// La mejor oportunidad del año con cinco días, para contarla en el texto: es
+// más convincente un ejemplo real que una promesa de que los hay.
+const mejor = oportunidades(anio, 5, 1)[0];
+const festivos = calcularFestivos(anio);
+
+const faq = [
+  {
+    pregunta: "¿Cómo se calculan estas oportunidades?",
+    respuesta:
+      "Se prueban todos los bloques de días hábiles seguidos que se podrían pedir en el año y se mira hasta dónde se estira el descanso pegándose a los fines de semana y festivos de al lado. No es una selección a ojo: es el año entero recorrido, y se muestran los tramos más largos.",
+  },
+  {
+    pregunta: "¿Cuál es el mejor mes para pedir vacaciones en Colombia?",
+    respuesta:
+      "Depende del año, porque cinco festivos se mueven con la Pascua. En general los meses con dos festivos en lunes seguidos —junio suele serlo— permiten encadenar más de una semana pidiendo solo cuatro días. La Semana Santa es la otra ventana clásica.",
+  },
+  {
+    pregunta: "¿Cuenta los festivos que se trasladan al lunes?",
+    respuesta:
+      "Sí, y son justamente los que hacen el truco. Los cálculos usan la fecha efectiva de descanso, ya corrida por la Ley 51 de 1983, no la del santoral.",
+  },
+  {
+    pregunta: "¿Los días de vacaciones en Colombia son hábiles?",
+    respuesta:
+      "Sí. El Código Sustantivo del Trabajo da quince días hábiles de vacaciones por año trabajado, así que los sábados, domingos y festivos que caigan dentro del periodo no se descuentan. Por eso pegarlos a un puente rinde tanto.",
+  },
+];
+
+const aplicacion = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Oportunidades de vacaciones de KALNDR",
+  url: url("/vacaciones/"),
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Cualquiera con navegador",
+  inLanguage: SITIO.idioma,
+  description:
+    "Encuentra cuándo pedir tus días de vacaciones en Colombia para encadenar la mayor cantidad de días libres seguidos, aprovechando fines de semana y festivos.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "COP" },
+};
+---
+
+<Base
+  titulo={`Cuándo pedir vacaciones en Colombia ${anio} — saca más días libres | ${SITIO.nombre}`}
+  descripcion={`Dinos cuántos días de vacaciones tienes y te decimos cuándo pedirlos en ${anio} para encadenar más días libres seguidos, aprovechando puentes y festivos.`}
+  camino="/vacaciones/"
+  tarjeta="vacaciones"
+  datos={[
+    aplicacion,
+    preguntas(faq),
+    migaDePan([
+      { nombre: "Inicio", camino: "/" },
+      { nombre: "Vacaciones", camino: "/vacaciones/" },
+    ]),
+  ]}
+>
+  <div class="py-10 sm:py-14">
+    <nav aria-label="Ruta" class="text-sm text-muted-foreground">
+      <a href={ruta("/")} class="transition-colors hover:text-primary">Inicio</a>
+      <span class="mx-2">/</span>
+      <span aria-current="page">Vacaciones</span>
+    </nav>
+
+    <h1 class="mt-4 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+      Cuándo pedir vacaciones en Colombia
+    </h1>
+
+    <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+      Los {festivos.length} festivos del año no valen todos lo mismo: pegados al fin de semana correcto,
+      unos pocos días de vacaciones se convierten en más de una semana.
+      {
+        mejor && (
+          <>
+            {" "}
+            En {anio}, pidiendo {mejor.diasPedidos} días en {nombreMes(mejor.inicio)} se encadenan
+            <span class="font-medium text-primary"> {mejor.diasLibres} días seguidos</span>.
+          </>
+        )
+      }
+    </p>
+
+    <div class="mt-10 rounded-xl border border-border bg-card p-5 sm:p-8">
+      <PlanVacaciones client:load anioInicial={anio} anios={anios} />
+    </div>
+
+    <section class="mt-16 grid gap-10 lg:grid-cols-2" aria-labelledby="como">
+      <div>
+        <h2 id="como" class="text-2xl font-semibold tracking-tight">Por qué funciona</h2>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          La Ley 51 de 1983 corre siete festivos al lunes siguiente para armar puentes. Eso
+          significa que buena parte del año hay fines de semana de tres días, y que el martes
+          siguiente es el día más caro de trabajar: pedirlo cuesta un día y alarga el descanso a
+          cuatro.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          Cuando dos festivos en lunes caen con una semana de diferencia, pedir los cuatro días
+          hábiles del medio encadena diez días seguidos. Es la mejor relación del año y casi nadie
+          la ve mirando una tabla de fechas.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight">Lo que esto no sabe</h2>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          Aquí solo entran los festivos nacionales y los fines de semana. No sabe si tu empresa
+          cierra en Semana Santa, si tu contrato cuenta las vacaciones en días hábiles o calendario,
+          ni si tu jefe aprueba diciembre.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          El Código Sustantivo del Trabajo da quince días hábiles al año, así que los fines de
+          semana y festivos que caigan dentro no se descuentan. Por eso pegarlos a un puente rinde
+          tanto — pero confirma cómo te los cuentan antes de pedirlos.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="faq">
+      <h2 id="faq" class="text-2xl font-semibold tracking-tight">Preguntas frecuentes</h2>
+      <dl class="mt-6 grid gap-6 sm:grid-cols-2">
+        {
+          faq.map((p) => (
+            <div class="rounded-lg border border-border p-5">
+              <dt class="font-medium">{p.pregunta}</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">{p.respuesta}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <p class="mt-14 text-sm text-muted-foreground">
+      El calendario completo de {anio} está en
+      <a href={ruta("/")} class="underline hover:text-primary">la página principal</a>, y para
+      contar días sueltos hay una
+      <a href={ruta("/calculadora/")} class="underline hover:text-primary">calculadora</a>.
+    </p>
+  </div>
+</Base>

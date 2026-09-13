@@ -42,10 +42,16 @@ const { tema } = Astro.props;
 
       <nav class="flex items-center gap-1 text-sm" aria-label="Secciones">
         <a
-          href={ruta("/calculadora/")}
+          href={ruta("/vacaciones/")}
           class="rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
-          Calculadora
+          Vacaciones
+        </a>
+        <a
+          href={ruta("/calculadora/")}
+          class="hidden rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:block"
+        >
+          Calculadora de días
         </a>
         <a
           href={ruta("/api/")}
