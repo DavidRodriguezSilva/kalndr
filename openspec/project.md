@@ -37,13 +37,13 @@ aquí.
 ### Arquitectura
 
 ```text
-domain/      el cálculo: festivos, Pascua, días hábiles, reglas, capas, temas
+domain/      el cálculo: festivos, Pascua, días hábiles, conteo, reglas, capas, temas
 data/        las hojas editables: eventos.json y temas.json
 seo/         identidad, URLs canónicas, datos estructurados, marca y tarjetas
 lib/         rangos de prerenderizado y utilidades de la capa Astro
 components/  islas React y componentes Astro
 layouts/     esqueleto HTML y `<head>` completo
-pages/       rutas HTML, la API y las imágenes para compartir
+pages/       rutas HTML, la calculadora, la API y las imágenes para compartir
 styles/      tokens (OKLCH) y un archivo por temporada en `temas/`
 ```
 

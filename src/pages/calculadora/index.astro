@@ -1,0 +1,154 @@
+---
+import Base from "@/layouts/Base.astro";
+import CalculadoraDias from "@/components/CalculadoraDias";
+import { SITIO, ruta, url } from "@/seo/sitio";
+import { migaDePan, preguntas } from "@/seo/jsonld";
+import {
+  ANIO_MAXIMO_CALCULABLE,
+  ANIO_MINIMO_CALCULABLE,
+  anioActual,
+  calcularFestivos,
+} from "@/domain/festivos";
+
+const anio = anioActual();
+// Nunca escrito a mano: el numero de festivos cambia cuando cambia la ley.
+const total = calcularFestivos(anio).length;
+const hoy = new Intl.DateTimeFormat("en-CA", {
+  timeZone: SITIO.zona,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
+
+const faq = [
+  {
+    pregunta: "¿Qué es un día hábil en Colombia?",
+    respuesta:
+      "Un día que no es sábado, ni domingo, ni festivo nacional. Es la unidad en la que están escritos casi todos los plazos legales, laborales y bancarios del país, y por eso contar mal los festivos cambia el resultado de un trámite.",
+  },
+  {
+    pregunta: "¿Cuál es la diferencia entre base 360 y base 365?",
+    respuesta:
+      "La base 365 cuenta los días que de verdad pasaron. La base 360, o convención 30/360, asume que todo mes tiene 30 días y todo año 360; es la que usan los bancos para calcular intereses y plazos. Para un mismo par de fechas dan números distintos, y la buena es la que diga tu contrato.",
+  },
+  {
+    pregunta: "¿Se cuentan los dos extremos o solo la diferencia?",
+    respuesta:
+      "Depende de para qué. Del 1 al 8 de enero hay 7 días de diferencia y 8 días si cuentas ambos extremos. Esta calculadora da los dos números con su nombre, porque casi toda discusión sobre cuántos días hay entre dos fechas es en realidad una discusión sobre cuál de los dos se está usando.",
+  },
+  {
+    pregunta: "¿Los festivos que se corren al lunes se descuentan bien?",
+    respuesta:
+      "Sí. Los días hábiles se calculan con las fechas efectivas de descanso, ya trasladadas por la Ley 51 de 1983. Si el 15 de agosto cae sábado, el día que no se trabaja es el lunes 17, y así se descuenta.",
+  },
+  {
+    pregunta: "¿Hasta qué años sirve?",
+    respuesta: `Entre ${ANIO_MINIMO_CALCULABLE} y ${ANIO_MAXIMO_CALCULABLE}. Antes de 1984 el cálculo aplica la ley de hoy y no refleja lo que el país realmente descansó entonces.`,
+  },
+];
+
+const aplicacion = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Calculadora de días de KALNDR",
+  url: url("/calculadora/"),
+  applicationCategory: "UtilitiesApplication",
+  operatingSystem: "Cualquiera con navegador",
+  inLanguage: SITIO.idioma,
+  description:
+    "Calcula días entre dos fechas, días hábiles de Colombia y días en base 360, descontando los festivos nacionales.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "COP" },
+  featureList: [
+    "Días entre dos fechas",
+    "Días hábiles de Colombia, sin fines de semana ni festivos",
+    "Convención 30/360 para cálculos financieros",
+    "Lista de los festivos que caen en el rango",
+  ],
+};
+---
+
+<Base
+  titulo={`Calculadora de días hábiles en Colombia — días entre dos fechas | ${SITIO.nombre}`}
+  descripcion="Calcula los días entre dos fechas y los días hábiles de Colombia, descontando fines de semana y festivos nacionales. Con base 365 y convención 30/360. Gratis y sin registro."
+  camino="/calculadora/"
+  tarjeta="calculadora"
+  datos={[
+    aplicacion,
+    preguntas(faq),
+    migaDePan([
+      { nombre: "Inicio", camino: "/" },
+      { nombre: "Calculadora de días", camino: "/calculadora/" },
+    ]),
+  ]}
+>
+  <div class="py-10 sm:py-14">
+    <nav aria-label="Ruta" class="text-sm text-muted-foreground">
+      <a href={ruta("/")} class="transition-colors hover:text-festivo">Inicio</a>
+      <span class="mx-2">/</span>
+      <span aria-current="page">Calculadora de días</span>
+    </nav>
+
+    <h1 class="mt-4 max-w-3xl text-4xl font-bold tracking-tight sm:text-5xl">
+      Calculadora de días hábiles en Colombia
+    </h1>
+
+    <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+      Cuántos días hay entre dos fechas, cuántos de ellos son hábiles y cuántos en base 360.
+      Descontando los festivos nacionales de verdad, con la Ley Emiliani ya aplicada.
+    </p>
+
+    <div class="mt-10 rounded-xl border border-border bg-card p-5 sm:p-8">
+      <CalculadoraDias client:load hoy={hoy} />
+    </div>
+
+    <section class="mt-16 grid gap-10 lg:grid-cols-2" aria-labelledby="como">
+      <div>
+        <h2 id="como" class="text-2xl font-semibold tracking-tight">Qué cuenta como día hábil</h2>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          Un día hábil en Colombia es el que no es sábado, ni domingo, ni festivo nacional. Suena
+          obvio hasta que hay que aplicarlo: siete de los {total} festivos no caen donde dice el santoral,
+          sino en el lunes siguiente, porque la Ley 51 de 1983 los traslada para armar un puente.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          Una calculadora que descuente el 15 de agosto en vez del 17 da un resultado equivocado en
+          casi todos los años. Aquí los días hábiles se calculan sobre las fechas efectivas de
+          descanso, que son las que importan para un plazo.
+        </p>
+      </div>
+
+      <div>
+        <h2 class="text-2xl font-semibold tracking-tight">360 o 365</h2>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          La base 365 cuenta los días que de verdad pasaron. La base 360 —la convención 30/360—
+          asume que todo mes tiene 30 días y todo año 360, y es la que usan los bancos para
+          intereses y plazos.
+        </p>
+        <p class="mt-4 leading-relaxed text-muted-foreground">
+          No es que una esté bien y la otra mal: son dos formas de contar, y la correcta es la que
+          diga el contrato. Tiene rarezas conocidas, como que del 1 de enero al 31 de diciembre den
+          360 clavados aunque falte un día de calendario.
+        </p>
+      </div>
+    </section>
+
+    <section class="mt-16" aria-labelledby="faq">
+      <h2 id="faq" class="text-2xl font-semibold tracking-tight">Preguntas frecuentes</h2>
+      <dl class="mt-6 grid gap-6 sm:grid-cols-2">
+        {
+          faq.map((p) => (
+            <div class="rounded-lg border border-border p-5">
+              <dt class="font-medium">{p.pregunta}</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">{p.respuesta}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+
+    <p class="mt-14 text-sm text-muted-foreground">
+      ¿Buscabas el calendario? Los {total} festivos de {anio} están en
+      <a href={ruta("/")} class="underline hover:text-festivo">la página principal</a>, y los datos
+      en bruto en <a href={ruta("/api/")} class="underline hover:text-festivo">la API</a>.
+    </p>
+  </div>
+</Base>

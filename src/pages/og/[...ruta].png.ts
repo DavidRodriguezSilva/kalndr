@@ -27,6 +27,16 @@ export function getStaticPaths() {
     },
   };
 
+  const calculadora: { params: { ruta: string }; props: Tarjeta } = {
+    params: { ruta: "calculadora" },
+    props: {
+      etiqueta: "Herramienta",
+      titulo: "Calculadora de días hábiles",
+      pie: "Días entre dos fechas, sin fines de semana ni festivos",
+      acento: "#5fb8c4",
+    },
+  };
+
   const anios = ANIOS_PAGINA.map((a) => {
     const lista = calcularFestivos(a);
     const puentes = lista.filter((f) => new Date(`${f.fecha}T00:00:00Z`).getUTCDay() === 1);
@@ -63,7 +73,7 @@ export function getStaticPaths() {
     };
   });
 
-  return [inicio, ...anios, ...festividades];
+  return [inicio, calculadora, ...anios, ...festividades];
 }
 
 export const GET: APIRoute = ({ props }) => {
