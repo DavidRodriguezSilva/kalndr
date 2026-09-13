@@ -178,8 +178,16 @@ Casi ninguna carrera y varias fiestas anuncian su fecha cada año. La hoja las
 declara con la ventana habitual y `"precision": "estimada"`, que es honesto,
 pero sin un recordatorio nadie las revisa y el sitio envejece sin avisar.
 
-`pnpm fechas` lista lo que está por confirmar, y el flujo
-`revisar-fechas.yml` abre un issue con esa lista cada 5 de enero.
+`pnpm fechas` lista lo que está por confirmar. El flujo `revisar-fechas.yml`
+abre un issue con esa lista **tres veces al año** —en enero para estrenar el
+año, y a mitad de cada semestre, que es cuando las organizaciones ya
+publicaron lo suyo y todavía queda tiempo para corregir.
+
+Resolverlo tampoco es trabajo manual: la skill `actualizar-fechas`
+(`.claude/skills/`) busca cada fecha en su fuente oficial, ajusta la regla y
+deja constancia de lo que no pudo confirmar. Lo que no encuentra se queda como
+estimado, que es correcto; inventarlo rompería lo único que hace valer este
+sitio.
 
 ## Al compartir un enlace
 

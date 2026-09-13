@@ -42,5 +42,7 @@ for (const [capa, lista] of [...porCapa].sort()) {
 }
 
 console.log(
-  `\n---\n\nGenerado por \`pnpm fechas\`. El formato está en \`docs/formato-eventos.md\`.`
+  `\n---\n\nPara resolverlo: abre el proyecto en Claude Code y usa la skill ` +
+    `\`actualizar-fechas\`, que busca cada fecha en su fuente oficial y actualiza la hoja.` +
+    `\nA mano, el formato está en \`docs/formato-eventos.md\`. Generado por \`pnpm fechas\`.`
 );
