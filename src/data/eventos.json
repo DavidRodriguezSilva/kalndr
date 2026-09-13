@@ -1,0 +1,393 @@
+[
+  {
+    "id": "carnaval-de-barranquilla",
+    "titulo": "Carnaval de Barranquilla",
+    "capa": "fiestas",
+    "descripcion": "Fiesta en la costa: comparsa, licor y baile durante cuatro días. La ciudad entera se vuelve calle.",
+    "lugar": "Barranquilla, Atlántico",
+    "regla": {
+      "tipo": "pascua",
+      "desde": -50,
+      "hasta": -47
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Carnaval_de_Barranquilla",
+    "curiosidades": [
+      "Patrimonio de la humanidad por la UNESCO desde 2003.",
+      "Cierra con el entierro de Joselito Carnaval, un funeral fingido para despedir la fiesta."
+    ],
+    "anotaciones": [
+      "No es festivo nacional: el lunes y el martes en el resto del país se trabaja.",
+      "El hospedaje se agota con meses de anticipación."
+    ]
+  },
+  {
+    "id": "carnaval-de-negros-y-blancos",
+    "titulo": "Carnaval de Negros y Blancos",
+    "capa": "fiestas",
+    "descripcion": "Pasto se pinta entera: el 5 se sale de negro, el 6 de blanco, y no queda nadie limpio.",
+    "lugar": "Pasto, Nariño",
+    "regla": {
+      "tipo": "rango",
+      "desde": {
+        "mes": 1,
+        "dia": 2
+      },
+      "hasta": {
+        "mes": 1,
+        "dia": 7
+      }
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Carnaval_de_Negros_y_Blancos",
+    "curiosidades": [
+      "Patrimonio de la humanidad por la UNESCO desde 2009.",
+      "Las carrozas se arman durante meses y desfilan un solo día, el 6."
+    ],
+    "anotaciones": ["No es festivo: solo el 6 lo es, porque cae Reyes Magos."]
+  },
+  {
+    "id": "feria-de-cali",
+    "titulo": "Feria de Cali",
+    "capa": "fiestas",
+    "descripcion": "Salsa hasta que amanezca, del 25 al 30. Cali cierra el año bailando y no pide permiso.",
+    "lugar": "Cali, Valle del Cauca",
+    "regla": {
+      "tipo": "rango",
+      "desde": {
+        "mes": 12,
+        "dia": 25
+      },
+      "hasta": {
+        "mes": 12,
+        "dia": 30
+      }
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Feria_de_Cali",
+    "curiosidades": [
+      "Nació en 1957 y también se llama la Feria de la Caña de Azúcar.",
+      "El Salsódromo la abre desfilando a las escuelas de salsa de la ciudad."
+    ],
+    "anotaciones": ["Cae justo entre Navidad y Año Nuevo, así que se pega con dos festivos."]
+  },
+  {
+    "id": "feria-de-las-flores",
+    "titulo": "Feria de las Flores",
+    "capa": "fiestas",
+    "descripcion": "Medellín en flor: trova, autos clásicos y silleteros bajando de Santa Elena con setenta kilos a la espalda.",
+    "lugar": "Medellín, Antioquia",
+    "regla": {
+      "tipo": "ordinal",
+      "mes": 8,
+      "diaSemana": 5,
+      "ocurrencia": 1,
+      "dias": 10
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Feria_de_las_Flores",
+    "curiosidades": [
+      "La primera, en 1957, duró cinco días y el desfile se improvisó con cuarenta campesinos."
+    ],
+    "anotaciones": [
+      "Las fechas las anuncia la Alcaldía cada año; aquí se estima el arranque el primer viernes de agosto.",
+      "El Desfile de Silleteros cierra la feria y paraliza media ciudad."
+    ]
+  },
+  {
+    "id": "feria-de-manizales",
+    "titulo": "Feria de Manizales",
+    "capa": "fiestas",
+    "descripcion": "Corridas, cabalgata y trova en la montaña. Enero en Manizales no se duerme.",
+    "lugar": "Manizales, Caldas",
+    "regla": {
+      "tipo": "ordinal",
+      "mes": 1,
+      "diaSemana": 6,
+      "ocurrencia": 2,
+      "dias": 9
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Feria_de_Manizales",
+    "curiosidades": ["Nació en 1955 inspirada en la Feria de Abril de Sevilla."],
+    "anotaciones": ["Las fechas exactas las confirma la alcaldía cada año."]
+  },
+  {
+    "id": "festival-de-la-leyenda-vallenata",
+    "titulo": "Festival de la Leyenda Vallenata",
+    "capa": "fiestas",
+    "descripcion": "Valledupar decide a punta de acordeón quién es el rey del vallenato. Cuatro días de parranda seria.",
+    "lugar": "Valledupar, Cesar",
+    "regla": {
+      "tipo": "fija",
+      "mes": 4,
+      "dia": 26,
+      "dias": 5
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Festival_de_la_Leyenda_Vallenata",
+    "curiosidades": [
+      "Se hace desde 1968 y el título de Rey Vallenato solo se puede ganar una vez.",
+      "Gabriel García Márquez fue uno de sus impulsores."
+    ],
+    "anotaciones": ["Las fechas exactas las confirma la fundación cada año."]
+  },
+  {
+    "id": "festival-del-bambuco",
+    "titulo": "Festival del Bambuco",
+    "capa": "fiestas",
+    "descripcion": "Neiva baila sanjuanero toda la semana de San Juan y San Pedro. Calor y aguardiente.",
+    "lugar": "Neiva, Huila",
+    "regla": {
+      "tipo": "fija",
+      "mes": 6,
+      "dia": 21,
+      "dias": 10
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Festival_Folcl%C3%B3rico_y_Reinado_Nacional_del_Bambuco",
+    "curiosidades": [
+      "El sanjuanero huilense tiene coreografía oficial y se enseña en los colegios."
+    ],
+    "anotaciones": ["Coincide con San Pedro y San Pablo, que sí es festivo."]
+  },
+  {
+    "id": "festival-del-porro",
+    "titulo": "Festival Nacional del Porro",
+    "capa": "fiestas",
+    "descripcion": "San Pelayo saca las bandas de viento a la calle y no las guarda en cuatro días.",
+    "lugar": "San Pelayo, Córdoba",
+    "regla": {
+      "tipo": "fija",
+      "mes": 6,
+      "dia": 28,
+      "dias": 4
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Festival_Nacional_del_Porro",
+    "curiosidades": ["Las bandas pelayeras tocan sin parar durante la alborada, de madrugada."],
+    "anotaciones": []
+  },
+  {
+    "id": "fiestas-de-san-pacho",
+    "titulo": "Fiestas de San Pacho",
+    "capa": "fiestas",
+    "descripcion": "Quibdó celebra a San Francisco durante dos semanas: chirimía, disfraz y barrio contra barrio.",
+    "lugar": "Quibdó, Chocó",
+    "regla": {
+      "tipo": "fija",
+      "mes": 9,
+      "dia": 20,
+      "dias": 15
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Fiestas_de_San_Pacho",
+    "curiosidades": [
+      "Patrimonio de la humanidad por la UNESCO desde 2012.",
+      "Cada barrio franciscano tiene su día y saca su propia comparsa."
+    ],
+    "anotaciones": []
+  },
+  {
+    "id": "semana-santa-en-popayan",
+    "titulo": "Semana Santa en Popayán",
+    "capa": "fiestas",
+    "descripcion": "Procesiones de noche por el centro histórico, en silencio y a paso lento. Otra cosa distinta a un carnaval.",
+    "lugar": "Popayán, Cauca",
+    "regla": {
+      "tipo": "pascua",
+      "desde": -5,
+      "hasta": -1
+    },
+    "precision": "exacta",
+    "wikipedia": "https://es.wikipedia.org/wiki/Procesiones_de_Semana_Santa_en_Popay%C3%A1n",
+    "curiosidades": [
+      "Patrimonio de la humanidad por la UNESCO desde 2009.",
+      "Se hacen sin interrupción desde la época colonial."
+    ],
+    "anotaciones": ["Jueves y Viernes Santo sí son festivos nacionales."]
+  },
+  {
+    "id": "torneo-internacional-del-joropo",
+    "titulo": "Torneo Internacional del Joropo",
+    "capa": "fiestas",
+    "descripcion": "El llano se junta en Villavicencio a zapatear joropo hasta que duelan los pies.",
+    "lugar": "Villavicencio, Meta",
+    "regla": {
+      "tipo": "fija",
+      "mes": 6,
+      "dia": 27,
+      "dias": 5
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Torneo_Internacional_del_Joropo",
+    "curiosidades": [
+      "Tiene récord Guinness por el joropódromo más grande, con miles de parejas bailando a la vez."
+    ],
+    "anotaciones": ["Las fechas se confirman cada año; suele caer a finales de junio."]
+  },
+  {
+    "id": "feria-del-libro-de-bogota",
+    "titulo": "Feria del Libro de Bogotá",
+    "capa": "eventos",
+    "descripcion": "Dos semanas de Corferias llenas de libros, editoriales y colegios enteros de paseo.",
+    "lugar": "Bogotá",
+    "regla": {
+      "tipo": "fija",
+      "mes": 4,
+      "dia": 17,
+      "dias": 15
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Feria_Internacional_del_Libro_de_Bogot%C3%A1",
+    "curiosidades": ["Es una de las ferias del libro más grandes de América Latina."],
+    "anotaciones": ["Las fechas exactas y el país invitado se anuncian a comienzos de año."]
+  },
+  {
+    "id": "festival-de-cine-de-cartagena",
+    "titulo": "Festival de Cine de Cartagena",
+    "capa": "eventos",
+    "descripcion": "El festival de cine más viejo de América Latina, con proyecciones gratis en la muralla.",
+    "lugar": "Cartagena, Bolívar",
+    "regla": {
+      "tipo": "fija",
+      "mes": 3,
+      "dia": 5,
+      "dias": 6
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Festival_Internacional_de_Cine_de_Cartagena_de_Indias",
+    "curiosidades": ["Se hace desde 1960."],
+    "anotaciones": ["La programación se publica unas semanas antes."]
+  },
+  {
+    "id": "rock-al-parque",
+    "titulo": "Rock al Parque",
+    "capa": "eventos",
+    "descripcion": "Tres días de rock gratis en el Simón Bolívar. Llueve siempre y a nadie le importa.",
+    "lugar": "Bogotá",
+    "regla": {
+      "tipo": "fija",
+      "mes": 7,
+      "dia": 5,
+      "dias": 3
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Rock_al_Parque",
+    "curiosidades": ["Es el festival de rock gratuito más grande de América Latina."],
+    "anotaciones": ["Las fechas se mueven entre junio y julio según el año."]
+  },
+  {
+    "id": "maraton-de-medellin",
+    "titulo": "Maratón de Medellín",
+    "capa": "carreras",
+    "descripcion": "42 kilómetros por el valle de Aburrá, con lomas donde uno se arrepiente de todo.",
+    "lugar": "Medellín, Antioquia",
+    "regla": {
+      "tipo": "ordinal",
+      "mes": 9,
+      "diaSemana": 0,
+      "ocurrencia": 1
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Marat%C3%B3n_de_Medell%C3%ADn",
+    "curiosidades": [],
+    "anotaciones": ["La fecha exacta la confirma la organización cada año."]
+  },
+  {
+    "id": "media-maraton-de-bogota",
+    "titulo": "Media Maratón de Bogotá",
+    "capa": "carreras",
+    "descripcion": "21 kilómetros a 2.600 metros. Media ciudad corre y la otra media aplaude en la acera.",
+    "lugar": "Bogotá",
+    "regla": {
+      "tipo": "ordinal",
+      "mes": 7,
+      "diaSemana": 0,
+      "ocurrencia": -1
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Media_marat%C3%B3n_de_Bogot%C3%A1",
+    "curiosidades": ["Es la carrera de ruta más grande de Colombia."],
+    "anotaciones": ["Las inscripciones abren varios meses antes y se agotan."]
+  },
+  {
+    "id": "vuelta-a-colombia",
+    "titulo": "Vuelta a Colombia",
+    "capa": "carreras",
+    "descripcion": "La carrera de ciclismo que hizo escaladores a este país. Dos semanas de montaña.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "fija",
+      "mes": 6,
+      "dia": 10,
+      "dias": 11
+    },
+    "precision": "estimada",
+    "wikipedia": "https://es.wikipedia.org/wiki/Vuelta_a_Colombia",
+    "curiosidades": ["Se corre desde 1951."],
+    "anotaciones": ["El recorrido y las fechas cambian cada edición."]
+  },
+  {
+    "id": "semana-de-receso",
+    "titulo": "Semana de receso",
+    "capa": "temporadas",
+    "descripcion": "La semana de octubre en que los colegios cierran y el país se va de puente largo.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "ordinal",
+      "mes": 10,
+      "diaSemana": 1,
+      "ocurrencia": 2,
+      "dias": 5
+    },
+    "precision": "estimada",
+    "wikipedia": "",
+    "curiosidades": [],
+    "anotaciones": ["Suele arrancar con el festivo del Día de la Raza."]
+  },
+  {
+    "id": "temporada-de-fin-de-ano",
+    "titulo": "Temporada de fin de año",
+    "capa": "temporadas",
+    "descripcion": "De las velitas a Reyes: novenas, vacaciones, ferias y nadie contestando correos.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "rango",
+      "desde": {
+        "mes": 12,
+        "dia": 7
+      },
+      "hasta": {
+        "mes": 1,
+        "dia": 10
+      }
+    },
+    "precision": "exacta",
+    "wikipedia": "",
+    "curiosidades": [],
+    "anotaciones": ["Es la temporada más cara para viajar dentro del país."]
+  },
+  {
+    "id": "vacaciones-de-mitad-de-ano",
+    "titulo": "Vacaciones de mitad de año",
+    "capa": "temporadas",
+    "descripcion": "Los colegios paran, los tiquetes suben y la costa se llena. Temporada alta.",
+    "lugar": "Nacional",
+    "regla": {
+      "tipo": "rango",
+      "desde": {
+        "mes": 6,
+        "dia": 15
+      },
+      "hasta": {
+        "mes": 7,
+        "dia": 10
+      }
+    },
+    "precision": "estimada",
+    "wikipedia": "",
+    "curiosidades": [],
+    "anotaciones": ["El calendario escolar varía por región; esto es el grueso del calendario A."]
+  }
+]
