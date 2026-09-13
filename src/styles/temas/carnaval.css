@@ -1,0 +1,26 @@
+/* Carnaval: el amarillo, rojo y verde de la costa, sin caer en la bandera. */
+[data-tema="carnaval"] {
+  --background: oklch(0.985 0.012 85);
+  --primary: oklch(0.58 0.19 35);
+  --ring: oklch(0.58 0.19 35);
+  --accent: oklch(0.55 0.15 340);
+  --accent-foreground: oklch(0.99 0.01 340);
+  --festivo: oklch(0.58 0.19 35);
+  --festivo-muted: oklch(0.93 0.07 45);
+  --fiesta: oklch(0.55 0.15 340);
+  --fiesta-muted: oklch(0.94 0.05 340);
+}
+
+.dark[data-tema="carnaval"] {
+  --background: oklch(0.17 0.02 30);
+  --card: oklch(0.23 0.026 30);
+  --border: oklch(0.34 0.03 30);
+  --primary: oklch(0.76 0.17 45);
+  --ring: oklch(0.76 0.17 45);
+  --accent: oklch(0.72 0.15 340);
+  --accent-foreground: oklch(0.18 0.03 340);
+  --festivo: oklch(0.76 0.17 45);
+  --festivo-muted: oklch(0.42 0.1 45);
+  --fiesta: oklch(0.72 0.15 340);
+  --fiesta-muted: oklch(0.38 0.08 340);
+}

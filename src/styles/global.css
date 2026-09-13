@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@import "./tokens.css";
+
+/* Los temas van después del contrato base: misma especificidad, gana el
+   último, y así `[data-tema]` sobreescribe sin necesitar `!important`. */
+@import "./temas/carnaval.css";
+@import "./temas/semana-santa.css";
+@import "./temas/flores.css";
+@import "./temas/navidad.css";
+@import "./temas/lluvias.css";
+@import "./temas/seco.css";
+
+/* El esquema oscuro se activa con la clase `.dark` en el elemento raíz, no
+   con la preferencia del sistema: quien pulsa el botón manda sobre el
+   sistema operativo. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/**
+ * Los tokens se exponen a Tailwind con los nombres de shadcn, de modo que
+ * `bg-background`, `text-muted-foreground` o `border-border` salgan del
+ * contrato —y que una primitiva de shadcn copiada al repositorio funcione sin
+ * tocarle nada.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-festivo: var(--festivo);
+  --color-festivo-foreground: var(--festivo-foreground);
+  --color-festivo-muted: var(--festivo-muted);
+  --color-fiesta: var(--fiesta);
+  --color-fiesta-foreground: var(--fiesta-foreground);
+  --color-fiesta-muted: var(--fiesta-muted);
+  --color-hoy: var(--hoy);
+  --color-hoy-foreground: var(--hoy-foreground);
+  --color-hoy-muted: var(--hoy-muted);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* El cambio de tema de temporada no debe sentirse como un parpadeo. */
+    transition:
+      background-color 240ms ease,
+      color 240ms ease;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* El foco visible no se quita nunca: es la única pista de navegación por
+     teclado, y buena parte de estas consultas se hacen en escritorio. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

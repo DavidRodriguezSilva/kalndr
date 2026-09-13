@@ -1,0 +1,56 @@
+[
+  {
+    "id": "carnaval",
+    "nombre": "Carnaval",
+    "descripcion": "La semana del Carnaval de Barranquilla. El calendario se pone a tono.",
+    "prioridad": 40,
+    "reglas": [{ "tipo": "pascua", "desde": -53, "hasta": -46 }]
+  },
+  {
+    "id": "semana-santa",
+    "nombre": "Semana Santa",
+    "descripcion": "De Domingo de Ramos a Pascua. Morado y silencio.",
+    "prioridad": 40,
+    "reglas": [{ "tipo": "pascua", "desde": -7, "hasta": 0 }]
+  },
+  {
+    "id": "flores",
+    "nombre": "Feria de las Flores",
+    "descripcion": "Los días de la feria de Medellín, a comienzos de agosto.",
+    "prioridad": 30,
+    "reglas": [{ "tipo": "ordinal", "mes": 8, "diaSemana": 5, "ocurrencia": 1, "dias": 12 }]
+  },
+  {
+    "id": "navidad",
+    "nombre": "Diciembre",
+    "descripcion": "Del alumbrado a Reyes: Navidad, Feria de Cali y Año Nuevo en una sola temporada.",
+    "prioridad": 35,
+    "reglas": [
+      {
+        "tipo": "rango",
+        "desde": { "mes": 12, "dia": 1 },
+        "hasta": { "mes": 1, "dia": 7 }
+      }
+    ]
+  },
+  {
+    "id": "lluvias",
+    "nombre": "Temporada de lluvias",
+    "descripcion": "Los dos periodos de lluvia del año andino.",
+    "prioridad": 10,
+    "reglas": [
+      { "tipo": "rango", "desde": { "mes": 4, "dia": 1 }, "hasta": { "mes": 5, "dia": 31 } },
+      { "tipo": "rango", "desde": { "mes": 9, "dia": 15 }, "hasta": { "mes": 11, "dia": 30 } }
+    ]
+  },
+  {
+    "id": "seco",
+    "nombre": "Temporada seca",
+    "descripcion": "Los meses de sol: mitad de año y arranque del año.",
+    "prioridad": 10,
+    "reglas": [
+      { "tipo": "rango", "desde": { "mes": 1, "dia": 8 }, "hasta": { "mes": 3, "dia": 15 } },
+      { "tipo": "rango", "desde": { "mes": 6, "dia": 15 }, "hasta": { "mes": 8, "dia": 31 } }
+    ]
+  }
+]

@@ -1,0 +1,26 @@
+/* Diciembre: del alumbrado a Reyes. Dorado cálido y verde profundo. */
+[data-tema="navidad"] {
+  --background: oklch(0.985 0.008 95);
+  --primary: oklch(0.56 0.15 45);
+  --ring: oklch(0.56 0.15 45);
+  --accent: oklch(0.48 0.1 155);
+  --accent-foreground: oklch(0.99 0.01 155);
+  --festivo: oklch(0.56 0.15 45);
+  --festivo-muted: oklch(0.94 0.05 70);
+  --fiesta: oklch(0.48 0.1 155);
+  --fiesta-muted: oklch(0.93 0.04 155);
+}
+
+.dark[data-tema="navidad"] {
+  --background: oklch(0.15 0.014 155);
+  --card: oklch(0.21 0.018 155);
+  --border: oklch(0.31 0.022 155);
+  --primary: oklch(0.82 0.14 85);
+  --ring: oklch(0.82 0.14 85);
+  --accent: oklch(0.7 0.12 155);
+  --accent-foreground: oklch(0.16 0.02 155);
+  --festivo: oklch(0.82 0.14 85);
+  --festivo-muted: oklch(0.42 0.08 85);
+  --fiesta: oklch(0.7 0.12 155);
+  --fiesta-muted: oklch(0.34 0.06 155);
+}

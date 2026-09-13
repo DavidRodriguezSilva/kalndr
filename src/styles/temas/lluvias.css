@@ -1,0 +1,22 @@
+/* Lluvias: el gris azul de un cielo cerrado; el festivo se mantiene cálido
+   para que siga leyéndose como lo que es. */
+[data-tema="lluvias"] {
+  --background: oklch(0.97 0.008 235);
+  --muted: oklch(0.94 0.01 235);
+  --border: oklch(0.88 0.012 235);
+  --accent: oklch(0.5 0.08 235);
+  --accent-foreground: oklch(0.99 0.005 235);
+  --fiesta: oklch(0.5 0.08 235);
+  --fiesta-muted: oklch(0.93 0.03 235);
+}
+
+.dark[data-tema="lluvias"] {
+  --background: oklch(0.15 0.016 235);
+  --card: oklch(0.21 0.02 235);
+  --muted: oklch(0.25 0.022 235);
+  --border: oklch(0.31 0.024 235);
+  --accent: oklch(0.7 0.09 235);
+  --accent-foreground: oklch(0.16 0.02 235);
+  --fiesta: oklch(0.7 0.09 235);
+  --fiesta-muted: oklch(0.34 0.05 235);
+}
