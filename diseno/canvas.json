@@ -1,0 +1,55 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 1180,
+      "title": "Inicio — escritorio"
+    },
+    {
+      "file": "HomeMovil.dc.html",
+      "x": 1400,
+      "y": 0,
+      "w": 390,
+      "h": 1180,
+      "title": "Inicio — móvil"
+    },
+    {
+      "file": "Calendario.dc.html",
+      "x": 0,
+      "y": 1320,
+      "w": 1280,
+      "h": 900,
+      "title": "Calendario con capas",
+      "is_interactive": true
+    },
+    {
+      "file": "Ficha.dc.html",
+      "x": 1400,
+      "y": 1320,
+      "w": 520,
+      "h": 900,
+      "title": "Ficha de festividad"
+    },
+    { "file": "Anio2026.dc.html", "x": 0, "y": 2360, "w": 880, "h": 1560, "title": "Página de año" }
+  ],
+  "annotations": [
+    {
+      "id": "nota-capas",
+      "x": 0,
+      "y": 1200,
+      "w": 400,
+      "text": "Las capas se encienden y se apagan.\nApágalas todas y queda el calendario plano.\nEste artboard responde: pruébalo."
+    },
+    {
+      "id": "nota-ficha",
+      "x": 1400,
+      "y": 1200,
+      "w": 400,
+      "text": "Descripción corta, en voz colombiana.\nEl resto se lee en Wikipedia — aquí no se\nescribe un artículo que nadie va a leer."
+    }
+  ],
+  "launch": { "view": "canvas" }
+}
