@@ -13,7 +13,7 @@ import tailwind from "@tailwindcss/vite";
  *
  *   SITE_URL=https://kalndr.co BASE_PATH=/ pnpm build
  */
-const site = process.env.SITE_URL ?? "https://DavidRodriguezSilva.github.io";
+const site = process.env.SITE_URL ?? "https://davidrodriguezsilva.github.io";
 const base = process.env.BASE_PATH ?? "/kalndr";
 
 export default defineConfig({

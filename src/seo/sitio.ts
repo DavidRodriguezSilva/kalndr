@@ -20,7 +20,7 @@ export const SITIO = {
 
 /** Origen absoluto del sitio, sin barra final. */
 export const ORIGEN: string = (
-  import.meta.env.SITE ?? "https://DavidRodriguezSilva.github.io"
+  import.meta.env.SITE ?? "https://davidrodriguezsilva.github.io"
 ).replace(/\/$/, "");
 
 /** Prefijo de ruta, siempre con barra final: `/kalndr/` o `/`. */

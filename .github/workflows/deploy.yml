@@ -48,7 +48,7 @@ jobs:
         env:
           # Mudar el sitio a un dominio propio es cambiar estas dos variables
           # en la configuracion del repositorio y anadir el CNAME. Nada mas.
-          SITE_URL: ${{ vars.SITE_URL || 'https://DavidRodriguezSilva.github.io' }}
+          SITE_URL: ${{ vars.SITE_URL || 'https://davidrodriguezsilva.github.io' }}
           BASE_PATH: ${{ vars.BASE_PATH || '/kalndr' }}
 
       - name: Configurar Pages
