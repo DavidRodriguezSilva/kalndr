@@ -52,52 +52,30 @@ const faq = [
   descripcion={`Los ${festivos.length} festivos de Colombia en ${anio}, con fechas exactas, cuáles se trasladan al lunes y cuándo cae el próximo. Calendario, API y suscripción.`}
   camino="/"
   tarjeta="inicio"
-  medida="ancho"
   datos={[sitioWeb(), listaFestivos(anio, festivos), preguntas(faq), conjuntoDeDatos()]}
 >
   <div class="py-10 sm:py-14">
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-      <div>
-        <p class="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          Colombia · {anio}
-        </p>
-        <h1 class="mt-3 text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
-          {festivos.length} festivos.<br />
-          <span class="text-festivo">{puentes.length} caen en lunes.</span>
+    <!-- Arriba, alineados por la cabeza. Antes iban alineados por el pie y
+         el título quedaba empujado hacia abajo sin razón. -->
+    <!-- Las dos columnas crecen igual: el bloque de texto y la tarjeta
+         comparten alto para que la fila se lea como una sola pieza. -->
+    <div class="grid items-stretch gap-8 lg:grid-cols-[minmax(0,1fr)_380px]">
+      <div class="flex flex-col justify-center">
+        <h1 class="text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+          Festivos Colombia <span class="text-primary">{anio}</span>
         </h1>
+        <p class="mt-5 max-w-xl text-lg leading-relaxed text-muted-foreground">
+          Pocos países del mundo descansan tanto. {festivos.length} festivos, {puentes.length} de ellos
+          en lunes: {puentes.length} fines de semana de tres días sin pedir un solo día de vacaciones.
+        </p>
       </div>
 
-      <div class="w-full lg:max-w-sm">
-        <ProximoFestivo client:load fechaBuild={hoy} />
-      </div>
+      <ProximoFestivo client:load fechaBuild={hoy} />
     </div>
 
     <div class="mt-14">
-      <Calendario client:load anioInicial={anio} hoy={hoy} />
+      <Calendario client:load anioInicial={anio} anios={ANIOS_PAGINA} hoy={hoy} />
     </div>
-
-    <section class="mt-20" aria-labelledby="anios">
-      <h2 id="anios" class="text-2xl font-semibold tracking-tight">Otros años</h2>
-      <ul class="mt-6 flex flex-wrap gap-2">
-        {
-          ANIOS_PAGINA.map((a) => (
-            <li>
-              <a
-                href={ruta(`/festivos/${a}/`)}
-                class:list={[
-                  "block rounded-md border px-4 py-2.5 font-mono text-sm transition-colors",
-                  a === anio
-                    ? "border-festivo bg-festivo-muted/30 text-festivo"
-                    : "border-border text-muted-foreground hover:border-ring hover:text-foreground",
-                ]}
-              >
-                {a}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </section>
 
     <section class="mt-20" aria-labelledby="faq">
       <h2 id="faq" class="text-2xl font-semibold tracking-tight">Preguntas frecuentes</h2>

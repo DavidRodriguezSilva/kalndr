@@ -74,6 +74,8 @@ export type Alcance = "nacional" | { readonly departamento: string; readonly ciu
 
 export interface EntradaCalendario {
   readonly tipo: TipoEntrada;
+  /** Id de la capa que la aporta. Decide el color con el que se pinta. */
+  readonly capa: string;
   readonly slug: string;
   readonly nombre: string;
   /** Primer dia. Para una entrada de un solo dia, igual a `fin`. */

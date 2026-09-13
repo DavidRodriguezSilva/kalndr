@@ -14,7 +14,7 @@ export const SITIO = {
   idioma: "es-CO",
   pais: "CO",
   zona: "America/Bogota",
-  autor: "DarkForest",
+  autor: "Dark4rest",
   repositorio: "https://github.com/DavidRodriguezSilva/kalndr",
 } as const;
 

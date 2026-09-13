@@ -17,8 +17,6 @@ interface Props {
   datos?: unknown[];
   /** `noindex` para páginas que existen pero no deben competir en el índice. */
   indexable?: boolean;
-  /** Ancho máximo del contenido. `ancho` para el calendario, que necesita sitio. */
-  medida?: "normal" | "ancho";
 }
 
 const {
@@ -28,7 +26,6 @@ const {
   tarjeta = "inicio",
   datos = [],
   indexable = true,
-  medida = "normal",
 } = Astro.props;
 
 const canonica = url(camino);
@@ -51,7 +48,7 @@ const periodos = [...calendarioDeTemas(anio), ...calendarioDeTemas(anio + 1)];
 ---
 
 <!doctype html>
-<html lang="es-CO" class="dark" data-tema={tema?.id} data-hoy={hoy}>
+<html lang="es-CO" data-esquema="sistema" data-tema={tema?.id} data-hoy={hoy}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -68,14 +65,22 @@ const periodos = [...calendarioDeTemas(anio), ...calendarioDeTemas(anio + 1)];
       // el visitante vería un destello del tema equivocado.
       (function () {
         var raiz = document.documentElement;
+
+        // Tres modos: sistema, claro y oscuro. El de fábrica es "sistema",
+        // porque quien ya configuró su equipo no tiene por qué volver a
+        // decirlo aquí. La elección se guarda y sobrevive al cambio de página.
         try {
-          var guardado = localStorage.getItem("kalndr-esquema");
-          // Oscuro de nacimiento: el sitio pertenece a DarkForest. La
-          // preferencia del sistema solo decide si el visitante nunca eligió.
-          var claro = guardado ? guardado === "claro"
-            : window.matchMedia("(prefers-color-scheme: light)").matches;
-          raiz.classList.toggle("dark", !claro);
-        } catch (e) {}
+          var modo = localStorage.getItem("kalndr-esquema") || "sistema";
+          if (modo !== "claro" && modo !== "oscuro") modo = "sistema";
+          raiz.setAttribute("data-esquema", modo);
+          var oscuro =
+            modo === "sistema"
+              ? window.matchMedia("(prefers-color-scheme: dark)").matches
+              : modo === "oscuro";
+          raiz.classList.toggle("dark", oscuro);
+        } catch (e) {
+          raiz.classList.add("dark");
+        }
 
         try {
           var hoy = new Intl.DateTimeFormat("en-CA", {
@@ -154,13 +159,9 @@ const periodos = [...calendarioDeTemas(anio), ...calendarioDeTemas(anio + 1)];
 
     <Encabezado tema={tema?.nombre} />
 
-    <main
-      id="contenido"
-      class:list={[
-        "mx-auto w-full px-4 sm:px-8",
-        medida === "ancho" ? "max-w-[1600px]" : "max-w-[1200px]",
-      ]}
-    >
+    <!-- Una sola medida en todo el sitio. La portada era más ancha que la
+         calculadora y la API, y al cambiar de vista el salto se notaba. -->
+    <main id="contenido" class="mx-auto w-full max-w-[1400px] px-4 sm:px-8">
       <slot />
     </main>
 

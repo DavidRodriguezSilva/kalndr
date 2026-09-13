@@ -29,8 +29,12 @@ export interface Capa {
   /** Una linea que explica que aporta la capa, visible en el conmutador. */
   readonly descripcion: string;
   readonly tipo: TipoEntrada;
-  /** Token de color con el que se pinta la capa. Ver `styles/tokens.css`. */
-  readonly token: string;
+  /**
+   * Token de color con el que se pinta la capa. Cada una tiene el suyo: en un
+   * calendario con cinco capas encendidas, el color es lo unico que permite
+   * saber de un vistazo que es cada marca. Ver `styles/tokens.css`.
+   */
+  readonly token: "festivo" | "fiesta" | "evento" | "carrera" | "temporada";
   /** Si arranca encendida en la primera visita. */
   readonly porDefecto: boolean;
   entradas(anio: Anio): readonly EntradaCalendario[];
@@ -46,6 +50,7 @@ const festivosNacionales: Capa = {
   entradas(anio) {
     return calcularFestivos(anio).map((festivo) => ({
       tipo: "festivo" as const,
+      capa: "festivos",
       slug: festivo.slug,
       nombre: festivo.nombre,
       inicio: festivo.fecha,
@@ -69,7 +74,7 @@ const DE_CONTENIDO: Record<string, Omit<Capa, "entradas">> = {
     nombre: "Fiestas y carnavales",
     descripcion: "Carnavales y ferias regionales. No son festivos: se trabaja igual.",
     tipo: "festividad",
-    token: "habil",
+    token: "fiesta",
     porDefecto: false,
   },
   eventos: {
@@ -77,7 +82,7 @@ const DE_CONTENIDO: Record<string, Omit<Capa, "entradas">> = {
     nombre: "Eventos",
     descripcion: "Conciertos, ferias y fechas señaladas con día propio.",
     tipo: "evento",
-    token: "habil",
+    token: "evento",
     porDefecto: false,
   },
   carreras: {
@@ -85,7 +90,7 @@ const DE_CONTENIDO: Record<string, Omit<Capa, "entradas">> = {
     nombre: "Carreras",
     descripcion: "Maratones y competencias, con su fecha de inscripción.",
     tipo: "evento",
-    token: "habil",
+    token: "carrera",
     porDefecto: false,
   },
   temporadas: {
@@ -93,7 +98,7 @@ const DE_CONTENIDO: Record<string, Omit<Capa, "entradas">> = {
     nombre: "Temporadas",
     descripcion: "Vacaciones, temporada alta de viaje y periodos largos.",
     tipo: "temporada",
-    token: "habil",
+    token: "temporada",
     porDefecto: false,
   },
 };
