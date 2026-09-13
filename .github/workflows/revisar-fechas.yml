@@ -4,9 +4,14 @@ name: Revisar fechas estimadas
 # con la ventana habitual y `precision: estimada`, que es honesto, pero sin un
 # recordatorio nadie las revisa y el sitio envejece sin avisar. Esto abre un
 # issue cada enero con la lista de lo que hay que confirmar.
+# Tres veces al anio, no una: en enero para estrenar el anio, y a mitad de
+# cada semestre, que es cuando las organizaciones ya publicaron lo suyo y
+# todavia queda tiempo para corregir antes de que la fecha llegue.
 on:
   schedule:
-    - cron: "0 13 5 1 *" # 5 de enero, 08:00 en Bogota
+    - cron: "0 13 5 1 *" # 5 de enero
+    - cron: "0 13 1 4 *" # 1 de abril
+    - cron: "0 13 1 9 *" # 1 de septiembre
   workflow_dispatch:
 
 permissions:
@@ -39,6 +44,11 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh issue create \
-            --title "Confirmar las fechas estimadas de $(date +%Y)" \
+            --title "Confirmar las fechas estimadas · $(date +%Y-%m)" \
+            --body "${{ steps.lista.outputs.cuerpo }}" \
+            --label "fechas" \
+            --repo "${{ github.repository }}" || \
+          gh issue create \
+            --title "Confirmar las fechas estimadas · $(date +%Y-%m)" \
             --body "${{ steps.lista.outputs.cuerpo }}" \
             --repo "${{ github.repository }}"
