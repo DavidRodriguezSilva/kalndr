@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches-ignore: [main]
+  pull_request:
+  workflow_call:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verificar:
+    name: Typecheck, formato y tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Instalar pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Instalar Node
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Formato
+        run: pnpm format:check
+
+      - name: Tests del dominio
+        run: pnpm test
+
+      - name: Typecheck y build
+        run: pnpm build
+        env:
+          # Fija el anio para que la verificacion sea reproducible: sin esto,
+          # la ventana de anios destacados cambiaria sola cada 1 de enero y un
+          # build de diciembre y otro de enero no serian comparables.
+          ANIO_ACTUAL: ${{ vars.ANIO_ACTUAL }}
