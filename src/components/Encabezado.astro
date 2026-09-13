@@ -41,17 +41,21 @@ const { tema } = Astro.props;
       }
 
       <nav class="flex items-center gap-1 text-sm" aria-label="Secciones">
+        <!-- El nombre largo dice qué vas a encontrar antes de entrar; el corto
+             existe para que en un teléfono quepan los tres enlaces. -->
         <a
           href={ruta("/vacaciones/")}
           class="rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
-          Vacaciones
+          <span class="lg:hidden">Vacaciones</span>
+          <span class="hidden lg:inline">Mejores fechas de vacaciones</span>
         </a>
         <a
           href={ruta("/calculadora/")}
-          class="hidden rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground sm:block"
+          class="rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
         >
-          Calculadora de días
+          <span class="lg:hidden">Días</span>
+          <span class="hidden lg:inline">Calculadora de días</span>
         </a>
         <a
           href={ruta("/api/")}
