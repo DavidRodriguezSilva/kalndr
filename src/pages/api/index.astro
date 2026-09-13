@@ -1,0 +1,146 @@
+---
+import Base from "@/layouts/Base.astro";
+import { SITIO, ORIGEN, ruta } from "@/seo/sitio";
+import { conjuntoDeDatos, migaDePan } from "@/seo/jsonld";
+import { ANIO_MAXIMO_CALCULABLE, ANIO_REGIMEN_ACTUAL, anioActual } from "@/domain/festivos";
+
+const anio = anioActual();
+const base = `${ORIGEN}${ruta("/")}`.replace(/\/$/, "");
+
+const ENDPOINTS = [
+  {
+    ruta: "/api/v1/index.json",
+    ejemplo: "/api/v1/index.json",
+    titulo: "Índice",
+    que: "Qué endpoints hay, en qué rango de años y con qué advertencias. La puerta de entrada: nadie debería tener que adivinar rutas.",
+  },
+  {
+    ruta: "/api/v1/festivos/{año}.json",
+    ejemplo: `/api/v1/festivos/${anio}.json`,
+    titulo: "Festivos de un año",
+    que: `Los festivos del año con el día de la semana y la fecha en palabras ya resueltos, y la explicación de cada traslado. Disponible de ${ANIO_REGIMEN_ACTUAL} a ${ANIO_MAXIMO_CALCULABLE}.`,
+  },
+  {
+    ruta: "/api/v1/festivos/{año}.ics",
+    ejemplo: `/api/v1/festivos/${anio}.ics`,
+    titulo: "Calendario suscribible",
+    que: "El mismo año en iCalendar, con eventos de día completo que no bloquean tu disponibilidad. Se suscribe desde Google Calendar, Apple Calendar u Outlook.",
+  },
+  {
+    ruta: "/api/v1/proximo.json",
+    ejemplo: "/api/v1/proximo.json",
+    titulo: "Próximo festivo",
+    que: "El siguiente festivo y los días que faltan. Es un archivo estático: la respuesta dice el día en que se generó, para que no la tomes por más exacta de lo que es.",
+  },
+  {
+    ruta: "/llms.txt",
+    ejemplo: "/llms.txt",
+    titulo: "Para modelos de lenguaje",
+    que: "El sitio explicado en Markdown plano, con el año en curso completo en texto. Un modelo que solo lea este archivo ya puede responder.",
+  },
+];
+---
+
+<Base
+  titulo={`API de festivos de Colombia — JSON e iCalendar | ${SITIO.nombre}`}
+  descripcion="API estática y gratuita con los festivos de Colombia de 1984 a 2099: JSON, iCalendar suscribible y llms.txt. Sin llave, sin límite de peticiones, licencia MIT."
+  camino="/api/"
+  datos={[
+    conjuntoDeDatos(),
+    migaDePan([
+      { nombre: "Inicio", camino: "/" },
+      { nombre: "API", camino: "/api/" },
+    ]),
+  ]}
+>
+  <div class="py-10 sm:py-14">
+    <nav aria-label="Ruta" class="text-sm text-muted-foreground">
+      <a href={ruta("/")} class="transition-colors hover:text-festivo">Inicio</a>
+      <span class="mx-2">/</span>
+      <span aria-current="page">API</span>
+    </nav>
+
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">API</h1>
+
+    <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+      Archivos estáticos generados en el build y servidos por GitHub Pages. Sin llave, sin límite de
+      peticiones, con CORS abierto y licencia MIT.
+    </p>
+
+    <div class="mt-6 flex flex-wrap gap-2 font-mono text-xs">
+      <span class="rounded-full border border-border px-3 py-1.5 text-muted-foreground">
+        {ANIO_REGIMEN_ACTUAL}–{ANIO_MAXIMO_CALCULABLE}
+      </span>
+      <span class="rounded-full border border-border px-3 py-1.5 text-muted-foreground">
+        CORS: *
+      </span>
+      <span class="rounded-full border border-border px-3 py-1.5 text-muted-foreground">MIT</span>
+    </div>
+
+    <div class="mt-12 space-y-4">
+      {
+        ENDPOINTS.map((e) => (
+          <article class="rounded-lg border border-border p-5 sm:p-6">
+            <div class="flex flex-wrap items-baseline justify-between gap-3">
+              <h2 class="text-lg font-semibold">{e.titulo}</h2>
+              <a
+                href={ruta(e.ejemplo)}
+                class="font-mono text-xs text-fiesta underline-offset-4 hover:underline"
+              >
+                probar ↗
+              </a>
+            </div>
+            <p class="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">{e.que}</p>
+            <code class="mt-4 block overflow-x-auto rounded-md bg-muted px-4 py-3 font-mono text-xs">
+              GET {base}
+              {e.ruta}
+            </code>
+          </article>
+        ))
+      }
+    </div>
+
+    <section class="mt-16" aria-labelledby="ejemplo">
+      <h2 id="ejemplo" class="text-2xl font-semibold tracking-tight">Cómo se ve una respuesta</h2>
+      <p class="mt-3 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+        Cada festivo trae el día de la semana y la fecha en palabras ya resueltos, porque quien
+        consume esto casi siempre está componiendo una frase en español. Y si la fecha se movió, la
+        respuesta dice por qué.
+      </p>
+      <pre
+        class="mt-5 overflow-x-auto rounded-lg border border-border bg-muted p-5 font-mono text-xs leading-relaxed"><code>{`{
+  "fecha": "${anio}-08-17",
+  "diaSemana": "lunes",
+  "fechaLarga": "lunes 17 de agosto de ${anio}",
+  "nombre": "La Asunción de la Virgen",
+  "slug": "asuncion",
+  "trasladado": true,
+  "fechaOriginal": "${anio}-08-15",
+  "explicacion": "Se celebra el sábado 15 de agosto de ${anio}, y la Ley Emiliani traslada el descanso al lunes siguiente."
+}`}</code></pre>
+    </section>
+
+    <section class="mt-16" aria-labelledby="estabilidad">
+      <h2 id="estabilidad" class="text-2xl font-semibold tracking-tight">Estabilidad</h2>
+      <ul class="mt-5 space-y-3 text-sm leading-relaxed text-muted-foreground">
+        <li class="border-l-2 border-border pl-4">
+          <strong class="font-medium text-foreground">No se quitan campos</strong> dentro de
+          <code class="font-mono text-xs">v1</code>, ni cambia su significado. Sí se pueden añadir,
+          así que conviene ignorar los desconocidos en vez de fallar.
+        </li>
+        <li class="border-l-2 border-border pl-4">
+          <strong class="font-medium text-foreground">Los slug son estables entre años.</strong>
+          <code class="font-mono text-xs">reyes-magos</code> es
+          <code class="font-mono text-xs">reyes-magos</code> siempre: es la clave con la que se sigue
+          un festivo en el tiempo.
+        </li>
+        <li class="border-l-2 border-border pl-4">
+          <strong class="font-medium text-foreground"
+            >Un cambio de ley cambia los datos, no el contrato.</strong
+          > Si el Congreso añade o quita un festivo, cambian las fechas y el total; la forma de la respuesta,
+          no.
+        </li>
+      </ul>
+    </section>
+  </div>
+</Base>

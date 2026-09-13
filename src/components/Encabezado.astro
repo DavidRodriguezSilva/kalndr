@@ -1,0 +1,111 @@
+---
+import { ruta } from "@/seo/sitio";
+import { trazoMarca } from "@/seo/marca";
+
+interface Props {
+  /** Nombre del tema de temporada activo, si hay alguno. */
+  tema?: string;
+}
+
+const { tema } = Astro.props;
+---
+
+<header class="border-b border-border">
+  <div
+    class="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-4 px-4 py-3 sm:px-8"
+  >
+    <a
+      href={ruta("/")}
+      class="flex items-center gap-2.5 rounded-md transition-opacity hover:opacity-80"
+      aria-label="KALNDR — inicio"
+    >
+      <svg
+        width="26"
+        height="26"
+        viewBox="0 0 24 24"
+        fill="none"
+        class="text-festivo"
+        aria-hidden="true"
+        set:html={trazoMarca(2.1)}
+      />
+      <span class="font-mono text-base font-semibold tracking-[0.14em]">KALNDR</span>
+    </a>
+
+    <div class="flex items-center gap-1 sm:gap-4">
+      {
+        tema && (
+          <span class="hidden text-xs text-muted-foreground sm:inline" title="Tema de temporada">
+            {tema}
+          </span>
+        )
+      }
+
+      <nav class="flex items-center gap-1 text-sm" aria-label="Secciones">
+        <a
+          href={ruta("/api/")}
+          class="rounded-md px-3 py-2 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        >
+          API
+        </a>
+      </nav>
+
+      <button
+        type="button"
+        id="cambiar-esquema"
+        class="flex h-10 w-10 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+        aria-label="Cambiar entre claro y oscuro"
+        aria-pressed="false"
+      >
+        <svg
+          class="hidden h-[18px] w-[18px] dark:block"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="12" r="4"></circle>
+          <path
+            d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+          ></path>
+        </svg>
+        <svg
+          class="h-[18px] w-[18px] dark:hidden"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script is:inline>
+  // Vanilla a propósito: el conmutador está en todas las páginas y no vale la
+  // pena hidratar React para alternar una clase.
+  (function () {
+    var boton = document.getElementById("cambiar-esquema");
+    if (!boton) return;
+    var raiz = document.documentElement;
+
+    function marcar() {
+      boton.setAttribute("aria-pressed", String(!raiz.classList.contains("dark")));
+    }
+
+    boton.addEventListener("click", function () {
+      var oscuro = raiz.classList.toggle("dark");
+      try {
+        localStorage.setItem("kalndr-esquema", oscuro ? "oscuro" : "claro");
+      } catch (e) {}
+      marcar();
+    });
+
+    marcar();
+  })();
+</script>

@@ -1,0 +1,116 @@
+---
+import Base from "@/layouts/Base.astro";
+import Calendario from "@/components/Calendario";
+import ProximoFestivo from "@/components/ProximoFestivo";
+import { anioActual, calcularFestivos, coincidencias, diasNoLaborables } from "@/domain/festivos";
+import { SITIO, ruta } from "@/seo/sitio";
+import { conjuntoDeDatos, listaFestivos, preguntas, sitioWeb } from "@/seo/jsonld";
+import { ANIOS_PAGINA } from "@/lib/rangos";
+
+const anio = anioActual();
+const festivos = calcularFestivos(anio);
+const dias = diasNoLaborables(anio);
+const juntos = coincidencias(anio);
+const puentes = festivos.filter((f) => new Date(`${f.fecha}T00:00:00Z`).getUTCDay() === 1);
+
+const hoy = new Intl.DateTimeFormat("en-CA", {
+  timeZone: SITIO.zona,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+}).format(new Date());
+
+const faq = [
+  {
+    pregunta: `¿Cuántos festivos tiene Colombia en ${anio}?`,
+    respuesta: `${anio} tiene ${festivos.length} festivos nacionales${
+      juntos.length > 0
+        ? `, pero solo ${dias.length} días de descanso: dos celebraciones caen el mismo día.`
+        : "."
+    }`,
+  },
+  {
+    pregunta: "¿Por qué algunos festivos se corren al lunes?",
+    respuesta:
+      "Por la Ley 51 de 1983, conocida como Ley Emiliani. Siete festivos de fecha fija se trasladan al lunes siguiente cuando no caen en lunes, para formar un puente. Los demás se celebran el día que les corresponde.",
+  },
+  {
+    pregunta: "¿Qué festivos cambian de fecha cada año?",
+    respuesta:
+      "Los cinco que dependen del Domingo de Pascua: Jueves Santo, Viernes Santo, la Ascensión del Señor, Corpus Christi y el Sagrado Corazón de Jesús. Los tres últimos, además, siempre caen en lunes.",
+  },
+  {
+    pregunta: "¿Cuál es el festivo nuevo de Colombia?",
+    respuesta:
+      "La Virgen del Rosario de Chiquinquirá, el 9 de julio, añadida por la Ley 2578 de 2026 y trasladable al lunes siguiente. Desde 2026 Colombia pasó de 18 a 19 festivos.",
+  },
+];
+---
+
+<Base
+  titulo={`Festivos de Colombia ${anio} — calendario completo | ${SITIO.nombre}`}
+  descripcion={`Los ${festivos.length} festivos de Colombia en ${anio}, con fechas exactas, cuáles se trasladan al lunes y cuándo cae el próximo. Calendario, API y suscripción.`}
+  camino="/"
+  tarjeta="inicio"
+  medida="ancho"
+  datos={[sitioWeb(), listaFestivos(anio, festivos), preguntas(faq), conjuntoDeDatos()]}
+>
+  <div class="py-10 sm:py-14">
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+      <div>
+        <p class="font-mono text-xs uppercase tracking-[0.18em] text-muted-foreground">
+          Colombia · {anio}
+        </p>
+        <h1 class="mt-3 text-4xl font-bold leading-[1.05] tracking-tight sm:text-6xl">
+          {festivos.length} festivos.<br />
+          <span class="text-festivo">{puentes.length} caen en lunes.</span>
+        </h1>
+      </div>
+
+      <div class="w-full lg:max-w-sm">
+        <ProximoFestivo client:load fechaBuild={hoy} />
+      </div>
+    </div>
+
+    <div class="mt-14">
+      <Calendario client:load anioInicial={anio} hoy={hoy} />
+    </div>
+
+    <section class="mt-20" aria-labelledby="anios">
+      <h2 id="anios" class="text-2xl font-semibold tracking-tight">Otros años</h2>
+      <ul class="mt-6 flex flex-wrap gap-2">
+        {
+          ANIOS_PAGINA.map((a) => (
+            <li>
+              <a
+                href={ruta(`/festivos/${a}/`)}
+                class:list={[
+                  "block rounded-md border px-4 py-2.5 font-mono text-sm transition-colors",
+                  a === anio
+                    ? "border-festivo bg-festivo-muted/30 text-festivo"
+                    : "border-border text-muted-foreground hover:border-ring hover:text-foreground",
+                ]}
+              >
+                {a}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="mt-20" aria-labelledby="faq">
+      <h2 id="faq" class="text-2xl font-semibold tracking-tight">Preguntas frecuentes</h2>
+      <dl class="mt-6 grid gap-6 sm:grid-cols-2">
+        {
+          faq.map((p) => (
+            <div class="rounded-lg border border-border p-5">
+              <dt class="font-medium">{p.pregunta}</dt>
+              <dd class="mt-2 text-sm leading-relaxed text-muted-foreground">{p.respuesta}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </section>
+  </div>
+</Base>

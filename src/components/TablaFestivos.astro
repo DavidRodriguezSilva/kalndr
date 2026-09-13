@@ -1,0 +1,81 @@
+---
+import type { Festivo } from "@/domain/tipos";
+import { formatoLargo, nombreDia } from "@/domain/fechas";
+import { anioActual } from "@/domain/festivos";
+
+interface Props {
+  festivos: readonly Festivo[];
+  anio: number;
+}
+
+const { festivos, anio } = Astro.props;
+const hoy =
+  anio === anioActual()
+    ? new Intl.DateTimeFormat("en-CA", {
+        timeZone: "America/Bogota",
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      }).format(new Date())
+    : null;
+---
+
+<!--
+  Una tabla, no una rejilla de tarjetas. Quien busca "festivos 2026" quiere
+  recorrer fechas en orden y encontrar una; una tabla hace exactamente eso,
+  se lee igual en un teléfono, y es lo que un lector de pantalla y un
+  rastreador entienden sin ayuda.
+-->
+<div class="overflow-x-auto">
+  <table class="w-full border-collapse text-left">
+    <caption class="sr-only">Festivos de Colombia en {anio}</caption>
+    <thead>
+      <tr class="border-b border-border text-sm uppercase tracking-wide text-muted-foreground">
+        <th scope="col" class="py-3 pr-4 font-medium">Fecha</th>
+        <th scope="col" class="py-3 pr-4 font-medium">Festivo</th>
+        <th scope="col" class="py-3 font-medium">Nota</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        festivos.map((f) => {
+          const pasado = hoy !== null && f.fecha < hoy;
+          const esHoy = hoy === f.fecha;
+          return (
+            <tr
+              class:list={[
+                "border-b border-borderr/60 align-top transition-colors",
+                pasado && "opacity-45",
+                esHoy && "bg-festivo-muted/25",
+              ]}
+            >
+              <td class="whitespace-nowrap py-4 pr-4">
+                <time datetime={f.fecha} class="font-mono text-sm text-festivo">
+                  {f.fecha}
+                </time>
+                <span class="mt-0.5 block text-sm capitalize text-muted-foreground">
+                  {nombreDia(f.fecha)}
+                </span>
+              </td>
+              <td class="py-4 pr-4">
+                <span class="font-medium text-foreground">{f.nombre}</span>
+                {esHoy && (
+                  <span class="ml-2 rounded-full bg-festivo px-2 py-0.5 text-xs font-semibold text-festivo-foreground">
+                    hoy
+                  </span>
+                )}
+              </td>
+              <td class="py-4 text-sm text-muted-foreground">
+                {f.trasladado
+                  ? `Se celebra el ${formatoLargo(f.fechaOriginal!)}; trasladado al lunes.`
+                  : f.regla === "pascua" || f.regla === "pascua-trasladable"
+                    ? "Depende de la Pascua, cambia cada año."
+                    : "Fecha fija."}
+              </td>
+            </tr>
+          );
+        })
+      }
+    </tbody>
+  </table>
+</div>

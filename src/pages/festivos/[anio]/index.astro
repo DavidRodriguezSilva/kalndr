@@ -1,0 +1,122 @@
+---
+import Base from "@/layouts/Base.astro";
+import TablaFestivos from "@/components/TablaFestivos.astro";
+import {
+  ANIO_REGIMEN_ACTUAL,
+  anioActual,
+  calcularFestivos,
+  coincidencias,
+  diasNoLaborables,
+} from "@/domain/festivos";
+import { SITIO, ruta } from "@/seo/sitio";
+import { listaFestivos, migaDePan } from "@/seo/jsonld";
+import { ANIOS_PAGINA } from "@/lib/rangos";
+
+export function getStaticPaths() {
+  return ANIOS_PAGINA.map((anio) => ({ params: { anio: String(anio) } }));
+}
+
+const anio = Number(Astro.params.anio);
+const festivos = calcularFestivos(anio);
+const dias = diasNoLaborables(anio);
+const juntos = coincidencias(anio);
+const puentes = festivos.filter((f) => new Date(`${f.fecha}T00:00:00Z`).getUTCDay() === 1);
+const actual = anioActual();
+const anterior = ANIOS_PAGINA.includes(anio - 1) ? anio - 1 : null;
+const siguiente = ANIOS_PAGINA.includes(anio + 1) ? anio + 1 : null;
+---
+
+<Base
+  titulo={`Festivos de Colombia ${anio} — las ${festivos.length} fechas | ${SITIO.nombre}`}
+  descripcion={`Calendario de los ${festivos.length} festivos de Colombia en ${anio}: fechas exactas, cuáles se trasladan al lunes por la Ley Emiliani y cuántos puentes hay.`}
+  camino={`/festivos/${anio}/`}
+  tarjeta={`festivos/${anio}`}
+  datos={[
+    listaFestivos(anio, festivos),
+    migaDePan([
+      { nombre: "Inicio", camino: "/" },
+      { nombre: `Festivos ${anio}`, camino: `/festivos/${anio}/` },
+    ]),
+  ]}
+>
+  <div class="py-10 sm:py-14">
+    <nav aria-label="Ruta" class="text-sm text-muted-foreground">
+      <a href={ruta("/")} class="transition-colors hover:text-festivo">Inicio</a>
+      <span class="mx-2">/</span>
+      <span aria-current="page">Festivos {anio}</span>
+    </nav>
+
+    <h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">
+      Festivos de Colombia {anio}
+    </h1>
+
+    <p class="mt-4 max-w-2xl text-lg text-muted-foreground">
+      {festivos.length} festivos nacionales{
+        juntos.length > 0
+          ? ` que caen en ${dias.length} días: ${juntos[0]!.map((f) => f.nombre).join(" y ")} coinciden el ${juntos[0]![0]!.fecha}`
+          : ""
+      }, y {puentes.length} de ellos hacen puente.
+    </p>
+
+    {
+      anio < ANIO_REGIMEN_ACTUAL && (
+        <p class="mt-6 rounded-lg border border-ring bg-card p-4 text-sm text-muted-foreground">
+          Este año es anterior a la Ley 51 de 1983. Las fechas se calculan con la ley vigente hoy,
+          así que no reflejan lo que el país realmente descansó entonces.
+        </p>
+      )
+    }
+
+    <div class="mt-10">
+      <TablaFestivos festivos={festivos} anio={anio} />
+    </div>
+
+    <nav class="mt-12 flex justify-between border-t border-border pt-6 text-sm" aria-label="Años">
+      {
+        anterior ? (
+          <a
+            href={ruta(`/festivos/${anterior}/`)}
+            class="text-muted-foreground transition-colors hover:text-festivo"
+          >
+            ← Festivos {anterior}
+          </a>
+        ) : (
+          <span />
+        )
+      }
+      {
+        siguiente ? (
+          <a
+            href={ruta(`/festivos/${siguiente}/`)}
+            class="text-muted-foreground transition-colors hover:text-festivo"
+          >
+            Festivos {siguiente} →
+          </a>
+        ) : (
+          <span />
+        )
+      }
+    </nav>
+
+    <p class="mt-10 text-sm text-muted-foreground">
+      Estos datos también están disponibles como
+      <a href={ruta(`/api/v1/festivos/${anio}.json`)} class="underline hover:text-festivo">JSON</a>
+      y como
+      <a href={ruta(`/api/v1/festivos/${anio}.ics`)} class="underline hover:text-festivo">
+        calendario suscribible
+      </a>.
+      {
+        anio !== actual && (
+          <>
+            {" "}
+            El año en curso está en
+            <a href={ruta("/")} class="underline hover:text-festivo">
+              la página principal
+            </a>
+            .
+          </>
+        )
+      }
+    </p>
+  </div>
+</Base>
