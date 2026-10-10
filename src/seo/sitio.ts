@@ -16,6 +16,17 @@ export const SITIO = {
   zona: "America/Bogota",
   autor: "Dark4rest",
   repositorio: "https://github.com/DavidRodriguezSilva/kalndr",
+  /**
+   * Verificacion de propiedad en Google Search Console.
+   *
+   * El token esta atado a una propiedad concreta —el prefijo de URL
+   * `https://davidrodriguezsilva.github.io/kalndr/`, no el repositorio en
+   * github.com, que es de GitHub y trae su propia etiqueta—. Cambiar de
+   * propiedad o de dominio obliga a pedir un token nuevo.
+   *
+   * Borrarla desverifica la propiedad y se pierde el historial de busqueda.
+   */
+  verificacionGoogle: "gEO5n76oGiobcvXtOq6Fx1KuVN-lPaU81mdA14jFlZM",
 } as const;
 
 /** Origen absoluto del sitio, sin barra final. */

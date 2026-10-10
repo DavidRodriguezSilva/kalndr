@@ -55,6 +55,7 @@ const periodos = [...calendarioDeTemas(anio), ...calendarioDeTemas(anio + 1)];
     <title>{titulo}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={canonica} />
+    <meta name="google-site-verification" content={SITIO.verificacionGoogle} />
     {!indexable && <meta name="robots" content="noindex, follow" />}
 
     <script
