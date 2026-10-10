@@ -4,3 +4,7 @@ pnpm-lock.yaml
 # El canvas de diseño se genera con la herramienta de diseño; formatearlo
 # puede romper su bloque de estado embebido.
 diseno/*.html
+
+# Verificación de Google Search Console: el contenido es literal y Google lo
+# compara tal cual. No es HTML aunque lo parezca por la extensión.
+public/google*.html
